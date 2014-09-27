@@ -38,7 +38,7 @@ public class Card
         }
 
         /*
-        A method to acess the suit of the card
+        A method to access the suit of the card
         */
         String getSuit()
         {
@@ -46,7 +46,7 @@ public class Card
         }
 
         /*
-        A method to acess the rank of the card
+        A method to access the rank of the card
         */ String getRank ()
         {
            return rank;
