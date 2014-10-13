@@ -1,3 +1,5 @@
+package csc232;
+
 /*
 @Author: Connie Uribe
 Date: 09/17/2014

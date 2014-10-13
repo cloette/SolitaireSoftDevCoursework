@@ -1,3 +1,4 @@
+package csc232;
 /**
 Due date: 09/17/14
 Assignment: Homework #2 
@@ -18,7 +19,7 @@ public class Card
         *
         @param suit The suit of the card: out of the 4, what sign is it
         @param rank The ranking of the card: what value does the card have
-        @param status The status of the card: face up or downn
+        @param status The status of the card: face up or down
         *
         */
         public Card(String suit, String rank, String status)
@@ -53,7 +54,7 @@ public class Card
         }
 
          /*
-         A method to acess the status of the card
+         A method to access the status of the card
          */
          String getStatus ()
          {
