@@ -10,9 +10,16 @@ cards until the end of the deck is reached. If the player goes
 past the end of the deck, they lose the game.
 */
 
+
+
 public class Deck
 {
    /* Fills up the deck with 52 cards. */
+   
+   Deck(int Vol)
+   {
+       this.Vol=Vol;
+   }
    
    void fill()
    {
@@ -20,7 +27,7 @@ public class Deck
       {
          for (int j=1; j<=13; j++) /*for every rank*/
          {
-            c = new Card (i , j, 1); /*create a card */
+            Card c = new Card(i , j, 1); /*create a card */
             add(c);   /*add that card to the deck */
          }
       }
@@ -38,7 +45,7 @@ public class Deck
    
    Card deal()
    {
-      
+     return; 
    }
    
    /* Add Card c to the top of the deck. */
@@ -54,19 +61,20 @@ public class Deck
    
    boolean isEmpty()
    {
-   
+     return false;
    }
    
    /* Empties the array (deck) of all stored cards. */
    
    void clear()
    {
-      
+      return;
    }
    
    private Card c;
    private Card[] Deck; 
    int nextIndex = 0;
+   private int Vol;
    
    
 }

@@ -9,87 +9,48 @@ then the getters and setters methods, and lastly the fields. I chose to
 organize it this way because that is one standard way of doing it. Other tha 
 */
 
-
-public class Card 
+public class Card
 {
+            private int Rank, Suit, Status;
 
-        /*
-        *
-        Construct a Card object given a suit, rank, and status
-        *
-        @param suit The suit of the card: out of the 4, what sign is it
-        @param rank The ranking of the card: what value does the card have
-        @param status The status of the card: face up or down
-        *
-        */
-        public Card(String suit, String rank, String status)
-        {
-                this.suit = suit;
-                this.rank = rank;
-                this.status = status;
+            private static String[] suits = { "hearts", "spades", "diamonds", "clubs" };
+            private static String[] ranks  = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+            private static String[] status = {"Face up", "Face down"};
+
+            public Card(int St, int Rk, int Ss)
+            {
+                Rank=Rk;
+                Suit=St;
+                Status=Ss;
+            }
+            
+          /*  public Card(int Suit, int Rank, int Status)
+            {
+                this.Rank=Rank;
+                this.Suit=Suit;
+                this.Status=Status;
+            }*/
+
+            public String toString()
+            {
+                  return "suit: "+ suits[Suit]+"\n"+"rank: "+ ranks[Rank]+"\n"+ "status: "+ status[Status];
+                  //ranks[Rank] + " of " + suits[Suit] + ", "+ status[Status];
+            }
+
+            public int getRank() {
+                 return Rank;
+            }
+
+            public int getSuit() {
+                return Suit;
+            }
+
+            public int getStatus() {
+                return Status;
+            }
         }
 
 
-        /**
-        Override the default <code>toString</code> method to return the card's state formatted into 4 lines.
-        */
-        public String toString()
-        {
-                return "Card:\n " + "suit: " + suit + "\n rank: " + rank + "\n status: " + status;
-        }
-
-        /*
-        A method to access the suit of the card
-        */
-        String getSuit()
-        {
-                return suit;
-        }
-
-        /*
-        A method to access the rank of the card
-        */ String getRank ()
-        {
-           return rank;
-        }
-
-         /*
-         A method to access the status of the card
-         */
-         String getStatus ()
-         {
-                 return status;
-         }
 
 
 
-         /*
-         A method to store/set new suit values
-         */
-         public void setSuit ( String newSuit)
-         {
-                 suit = newSuit;
-         }
-      
-         /*
-         A method to store/set new rank values
-         */
-         public void setRank( String newRank)
-         {
-                 rank = newRank;
-         }
-         /*
-         A method to Store/set new status values
-         */
-         public void setStatus( String newStatus)
-         {
-                 status = newStatus;
-         }
-      
-         /*
-         Creating the fields for the class Card
-         */
-         private String suit;
-         private String rank;
-         private String status;
- }
