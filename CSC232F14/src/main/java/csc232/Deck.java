@@ -16,9 +16,9 @@ public class Deck
 {
    /* Fills up the deck with 52 cards. */
    
-   Deck(int Vol)
+   Deck()
    {
-       this.Vol=Vol;
+       Deck = new Card[52];
    }
    
    void fill()
@@ -52,9 +52,8 @@ public class Deck
    
    void add(Card c)
    {
-      unshuffledDeck[nextIndex] = c;
-      nextIndex++;
-
+      Deck[nextIndex] = c;
+      
    }
    
    /* Checks to see if there is a value in the current section of the array. */

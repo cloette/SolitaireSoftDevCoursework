@@ -17,11 +17,11 @@ public class Card
             private static String[] ranks  = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
             private static String[] status = {"Face up", "Face down"};
 
-            public Card(int St, int Rk, int Ss)
+            Card(int St, int Rk, int Ss)
             {
-                Rank=Rk;
-                Suit=St;
-                Status=Ss;
+                this.Rank=Rk;
+                this.Suit=St;
+                this.Status=Ss;
             }
             
           /*  public Card(int Suit, int Rank, int Status)
