@@ -67,7 +67,7 @@ public class Deck
    
    Card deal()
    {
-     return; 
+      return c;
    }
    
    /* Add Card c to the top of the deck. */
@@ -89,10 +89,11 @@ public class Deck
    
    void clear()
    {
-      return;
+      Deck = null;
    }
    
 
+   private Card c; 
    private Card[] Deck; 
    private Card[] Deck2;
    int nextIndex = 0;
