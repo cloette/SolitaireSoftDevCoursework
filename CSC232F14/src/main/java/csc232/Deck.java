@@ -1,6 +1,6 @@
 package csc232;
 
-import java.util.Random;
+
 /**
 Due date: 10/17/14
 Assignment: Homework #4
@@ -82,7 +82,16 @@ public class Deck
    
    boolean isEmpty()
    {
-     return false;
+     
+      if (Deck == null)
+      {
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+      
    }
    
    /* Empties the array (deck) of all stored cards. */
