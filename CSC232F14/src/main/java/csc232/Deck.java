@@ -24,9 +24,9 @@ public class Deck
    
    void fill()
    {
-      for (int i=1; i<= 4; i++)  /*for every suit */
+      for (int i = 0; i< 4; i++)  /*for every suit */
       {
-         for (int j=1; j<=13; j++) /*for every rank*/
+         for (int j=0; j<13; j++) /*for every rank*/
          {
             Card c = new Card(i , j, 1); /*create a card */
             add(c);   /*add that card to the deck */
@@ -36,7 +36,7 @@ public class Deck
    
    /* Shuffles the cards inside the array Deck. */
    
-   void shuffle()
+  /* void shuffle()
    {
       if (Deck == null)
       {
@@ -61,6 +61,7 @@ public class Deck
       }
       
    }
+   */
    
    /* Prints the position of the card just removed, then removes 
     * the card. "Dealing card 1", "Dealing card 2".... */
