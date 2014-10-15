@@ -1,5 +1,6 @@
 package csc232;
 
+import java.util.Random;
 /**
 Due date: 10/17/14
 Assignment: Homework #4
@@ -37,6 +38,27 @@ public class Deck
    
    void shuffle()
    {
+      if (Deck == null)
+      {
+         System.out.println("empty deck!");
+         return;
+      }
+      else
+      {
+         for(int i = 0; i < 52; i++)
+         {
+           int random = (int )(Math.random() * 51 + 0);
+           if (Deck2[random] == null)
+           {
+              Deck2[random] = Deck[i];
+           }
+           else
+           {
+              i--;
+           }
+         Deck = Deck2;
+         }
+      }
       
    }
    
@@ -70,10 +92,11 @@ public class Deck
       return;
    }
    
-   private Card c;
+
    private Card[] Deck; 
+   private Card[] Deck2;
    int nextIndex = 0;
-   private int Vol;
+
    
    
 }
