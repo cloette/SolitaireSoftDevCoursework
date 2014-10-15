@@ -35,6 +35,31 @@ public class Deck
    }
    
    /* Shuffles the cards inside the array Deck. */
+   void shuffle()
+   {
+      int[] unshuffled = new int[Deck.length];
+      int[] shuffled = new int[Deck.length];
+      while (Deck.length != NULL){           //checks if Deck is NULL
+         for( int cardIndex = Deck.length; cardIndex > 0; cardIndex--){      //going from card 52-1
+            String cardContext = shuffled[cardIndex];                         //stored the context of the shuffled card in the local variable
+            for( int position = 0; position< Deck.length; position++){        //goes from 0-51
+               unshuffled[position] = cardContext;                            //takes the context stored in variable and stores it in the current position
+            }
+         }
+         
+         Random card = new Random(Deck.length);          // picks a random number from the length of the deck
+         String randomCard = unshuffled[card];           //gets the context of that random number from the unshuffled
+         for( int i = 0; i < Deck.length; i++){          // goes from 0-51
+            String shuffledCard = shuffled[i];           //gets the value of the current position
+            shuffled[i] = randomCard;                    //stores the random value to the shuffled array
+            unshuffled[card] = shuffledCard;             // replaces the random value with the value of the shuffled card
+         }
+      }  
+      
+   }
+
+
+   /* Shuffles the cards inside the array Deck. */
    
   /* void shuffle()
    {
