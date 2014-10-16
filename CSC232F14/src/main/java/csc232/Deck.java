@@ -23,6 +23,7 @@ public class Deck
 
    void fill()
    {
+      nextIndex = 0;
       for (int i = 0; i < 4; i++) /* for every suit */
       {
          for (int j = 0; j < 13; j++) /* for every rank */
@@ -85,6 +86,14 @@ public class Deck
 
    Card deal()
    {
+      Card c = Deck[Deck.length-1];
+      Card[] temp = new Card[(Integer) null];
+      for (int i = 0; i < Deck.length-1; i++)
+      {
+         temp[i] = Deck[i];
+      }
+      Deck = null;
+      Deck = temp;
       return c;
    }
 
@@ -93,6 +102,7 @@ public class Deck
    void add(Card c)
    {
       Deck[nextIndex] = c;
+      nextIndex++;
 
    }
 
@@ -119,8 +129,8 @@ public class Deck
       Deck = null;
    }
 
-   private Card c;
+  
    private Card[] Deck;
-   int nextIndex = 0;
+   int nextIndex;
 
 }
