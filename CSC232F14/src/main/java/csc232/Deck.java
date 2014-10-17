@@ -44,29 +44,23 @@ public class Deck
       }
       else
       {
-         int size = Deck.length;
-         int[] shuffled = new int[size];
-
-         for (int card = 0; card < size / 2; card++)
+         for (int i = Deck.length - 1; i >= 0; i--)
          {
-            int temp = shuffled[card];
-            shuffled[card] = shuffled[size - card - 1];
-            shuffled[size - card - 1] = temp;
-         }
-         for (int i = 0; i < size; i++)
-         {
-            while (shuffled[i] < size)
-            {
-               Random r = new Random();
-               int num = r.nextInt(size - i);
-               int temp = shuffled[i];
-               shuffled[i] = shuffled[num];
-               shuffled[num] = temp;
 
-            }
+            // get random index, j, from 0 to i
+            Random c = new Random();
+            int number = c.nextInt(Deck.length - i);
+
+            // swap Deck[i] with Deck[j]
+            Card temp = Deck[i];
+            Deck[i] = Deck[number];
+            Deck[number] = temp;
+
          }
+
       }
    }
+
 
    /* Shuffles the cards inside the array Deck. */
 
