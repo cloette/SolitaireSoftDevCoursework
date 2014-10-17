@@ -8,17 +8,19 @@ import java.util.Random;
  * @author Cloette Owensby, Bolun Zhang, Connie Uribe
  * 
  *         Creates a simple game of Solitaire, where the player must draw cards
- *         until the end of the deck is reached. If the player goes past the end
- *         of the deck, they lose the game.
+ *         until the end of the aDeck is reached. If the player goes past the end
+ *         of the aDeck, they lose the game.
  */
 
 public class Deck
 {
-   /* Fills up the deck with 52 cards. */
+   private int nextIndex;
+   private Card[] aDeck;
+   /* Fills up the aDeck with 52 cards. */
 
-   Deck()
+  public Deck()
    {
-      Deck = new Card[52];
+      aDeck = new Card[52];
    }
 
    void fill()
@@ -29,32 +31,33 @@ public class Deck
          for (int j = 0; j < 13; j++) /* for every rank */
          {
             Card c = new Card(i, j, 1); /* create a card */
-            add(c); /* add that card to the deck */
+            add(c); /* add that card to the aDeck */
+            System.out.println("successfully fill deck!");
          }
       }
    }
 
-   /* Shuffles the cards inside the array Deck. */
+   /* Shuffles the cards inside the array aDeck. */
    void shuffle()
    {
-      if (Deck == null)
+      if (aDeck == null)
       {
-         System.out.println("empty deck!");
+         System.out.println("empty aDeck!");
          return;
       }
       else
       {
-         for (int i = Deck.length - 1; i >= 0; i--)
+         for (int i = aDeck.length - 1; i >= 0; i--)
          {
 
             // get random index, j, from 0 to i
             Random c = new Random();
-            int number = c.nextInt(Deck.length - i);
+            int number = c.nextInt(aDeck.length - i);
 
-            // swap Deck[i] with Deck[j]
-            Card temp = Deck[i];
-            Deck[i] = Deck[number];
-            Deck[number] = temp;
+            // swap aDeck[i] with aDeck[j]
+            Card temp = aDeck[i];
+            aDeck[i] = aDeck[number];
+            aDeck[number] = temp;
 
          }
 
@@ -62,13 +65,13 @@ public class Deck
    }
 
 
-   /* Shuffles the cards inside the array Deck. */
+   /* Shuffles the cards inside the array aDeck. */
 
    /*
-    * void shuffle() { if (Deck == null) { System.out.println("empty deck!");
+    * void shuffle() { if (aDeck == null) { System.out.println("empty aDeck!");
     * return; } else { for(int i = 0; i < 52; i++) { int random = (int
-    * )(Math.random() * 51 + 0); if (Deck2[random] == null) { Deck2[random] =
-    * Deck[i]; } else { i--; } Deck = Deck2; } }
+    * )(Math.random() * 51 + 0); if (aDeck2[random] == null) { aDeck2[random] =
+    * aDeck[i]; } else { i--; } aDeck = aDeck2; } }
     * 
     * }
     */
@@ -80,22 +83,22 @@ public class Deck
 
    Card deal()
    {
-      Card c = Deck[Deck.length-1];
+      Card c = aDeck[aDeck.length-1];
       Card[] temp = new Card[(Integer) null];
-      for (int i = 0; i < Deck.length-1; i++)
+      for (int i = 0; i < aDeck.length-1; i++)
       {
-         temp[i] = Deck[i];
+         temp[i] = aDeck[i];
       }
-      Deck = null;
-      Deck = temp;
+      aDeck = null;
+      aDeck = temp;
       return c;
    }
 
-   /* Add Card c to the top of the deck. */
+   /* Add Card c to the top of the aDeck. */
 
    void add(Card c)
    {
-      Deck[nextIndex] = c;
+      aDeck[nextIndex] = c;
       nextIndex++;
 
    }
@@ -105,7 +108,7 @@ public class Deck
    boolean isEmpty()
    {
 
-      if (Deck == null)
+      if (aDeck == null)
       {
          return true;
       }
@@ -116,15 +119,19 @@ public class Deck
 
    }
 
-   /* Empties the array (deck) of all stored cards. */
+   /* Empties the array (aDeck) of all stored cards. */
 
    void clear()
    {
-      Deck = null;
+      aDeck = null;
    }
 
-  
-   private Card[] Deck;
-   int nextIndex;
+  public static void main(String[] arg){
+     Deck sampleDeck = new Deck();
+     sampleDeck.fill();
+     
+  }
+   
+   
 
 }
