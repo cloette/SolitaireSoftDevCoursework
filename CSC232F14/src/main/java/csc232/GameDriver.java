@@ -1,11 +1,11 @@
 package csc232;
 
-import java.awt.event.ActionEvent;
+/*import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.JOptionPane;*/
 
 /** This class exists to manage the user prompts and operation of the game. */
 
@@ -15,13 +15,13 @@ public class GameDriver {
     
          /** Creates a simple user interface to test out and debug the Solitaire game. */
          
-         JFrame frame = new JFrame();
+         /*JFrame frame = new JFrame();
          frame.setSize(400, 300);
          frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          
          JOptionPane.showMessageDialog(null, "Let's play Solitaire!","Message", JOptionPane.INFORMATION_MESSAGE);
           JButton pushMe = new JButton("Deal the next card!");
-         frame.add(pushMe);
+         frame.add(pushMe);*/
          
          /** creates a deck */
 
@@ -31,7 +31,7 @@ public class GameDriver {
  
          /** shuffles the deck */
 
-         /*myDeck.shuffle();*/
+         myDeck.shuffle();
 
          /** Checks to see if there enough cards left in the deck to deal again.
          /** If not, the user has lost. The game then ends. */
@@ -56,21 +56,24 @@ public class GameDriver {
          {
 //            int cardValue = myDeck.cardValue(myDeck.size-1)+1;/** (rank, ace, jack, etc. 1-10) */
             final Card printCard = myDeck.deal(); /** deals the next card */
+            System.out.println("in hand "+ printCard.toString());
             if (printCard.getRank()+1 <= 10)
             {
                for (int i = 0; i < printCard.getRank()+1; i++)
                {
                   if(myDeck.isEmpty() == true)
                   {
-                     JOptionPane.showMessageDialog(null, "You lost! Sorry. Better luck next time.");
+                    System.out.println("You lost! Sorry. Better luck next time.");
+                    return;
                   }
                   final Card nextCards = myDeck.deal();
-                  JOptionPane.showMessageDialog(null, "dealing "+ nextCards.toString());
+                  System.out.println("dealing "+ nextCards.toString());
                }
                
                if (myDeck.isEmpty())
                {
-                  JOptionPane.showMessageDialog(null, "You won! Congrats! Huzzah! You did it!");
+                  System.out.println("You won! Congrats! Huzzah! You did it!");
+                  return;
                }
             }
             else
@@ -79,31 +82,33 @@ public class GameDriver {
                {
                   if(myDeck.isEmpty() == true)
                   {
-                     JOptionPane.showMessageDialog(null, "You lost! Sorry. Better luck next time.");
+                     System.out.println("You lost! Sorry. Better luck next time.");
+                     return;
                   }
                   final Card nextCards = myDeck.deal();
-                  JOptionPane.showMessageDialog(null, "dealing "+ nextCards.toString());
+                  System.out.println("dealing "+ nextCards.toString());
                }
                
                if (myDeck.isEmpty())
                {
-                  JOptionPane.showMessageDialog(null, "You won! Congrats! Huzzah! You did it!");
+                  System.out.println("You won! Congrats! Huzzah! You did it!");
+                  return;
                } 
               
             }
             
            
             /**Displays the name of the card each time it is dealt. */
-            pushMe.addActionListener(new ActionListener()
+           /* pushMe.addActionListener(new ActionListener()
             {
                public void actionPerformed(ActionEvent e)
                {
                   JOptionPane.showMessageDialog(null, printCard.toString());
                }
-            });
+            });*/
          }
          
-         frame.setVisible(true);
+        // frame.setVisible(true);
          
          
 }

@@ -33,11 +33,11 @@ public class Deck
    void fill()
    {
       nextIndex = 0;
-      for (int i = 0; i < 1; i++) /* for every suit */
+      for (int i = 0; i < 4; i++) /* for every suit */
       {
-         for (int j = 0; j < 6; j++) /* for every rank */
+         for (int j = 0; j < 13; j++) /* for every rank */
          {
-            Card c = new Card(1, 0, 1); /* create a card */
+            Card c = new Card(i, j, 1); /* create a card */
             add(c); /* add that card to the aDeck */
          }
       }

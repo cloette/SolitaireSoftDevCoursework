@@ -33,7 +33,7 @@ public class Card
 
             public String toString()
             {
-                  return "suit: "+ suits[Suit]+"\n"+"rank: "+ ranks[Rank]+"\n"+ "status: "+ status[Status];
+                  return "suit: "+ suits[Suit]+" rank: "+ ranks[Rank]+ " status: "+ status[Status];
                   //ranks[Rank] + " of " + suits[Suit] + ", "+ status[Status];
             }
 
