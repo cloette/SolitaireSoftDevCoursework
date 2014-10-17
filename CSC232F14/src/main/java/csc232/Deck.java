@@ -101,7 +101,6 @@ public class Deck
    {
       aDeck.add(c);
       nextIndex++;
-
    }
 
    /* Checks to see if there is a value in the current section of the array. */
@@ -130,6 +129,8 @@ public class Deck
   public static void main(String[] arg){
      Deck sampleDeck = new Deck();
      sampleDeck.fill();
+
+
      
   }
    
