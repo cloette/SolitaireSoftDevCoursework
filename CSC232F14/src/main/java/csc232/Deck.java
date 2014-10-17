@@ -1,5 +1,6 @@
 package csc232;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -15,24 +16,29 @@ import java.util.Random;
 public class Deck
 {
    private int nextIndex;
-   private Card[] aDeck;
+   private ArrayList<Card> aDeck;
+   int size;
    /* Fills up the aDeck with 52 cards. */
 
   public Deck()
    {
-      aDeck = new Card[52];
+      aDeck = new ArrayList<Card>();
+      size = 5;
    }
-
+  
+  public int cardValue(int cardPosition){
+    return aDeck.get(cardPosition).getRank(); 
+  }
+  
    void fill()
    {
       nextIndex = 0;
-      for (int i = 0; i < 4; i++) /* for every suit */
+      for (int i = 0; i < 1; i++) /* for every suit */
       {
-         for (int j = 0; j < 13; j++) /* for every rank */
+         for (int j = 0; j < 5; j++) /* for every rank */
          {
-            Card c = new Card(i, j, 1); /* create a card */
+            Card c = new Card(1, j, 1); /* create a card */
             add(c); /* add that card to the aDeck */
-            System.out.println("successfully fill deck!");
          }
       }
    }
@@ -47,17 +53,17 @@ public class Deck
       }
       else
       {
-         for (int i = aDeck.length - 1; i >= 0; i--)
+         for (int i = aDeck.size() - 1; i >= 0; i--)
          {
 
             // get random index, j, from 0 to i
             Random c = new Random();
-            int number = c.nextInt(aDeck.length - i);
+            int number = c.nextInt(aDeck.size() - i);
 
             // swap aDeck[i] with aDeck[j]
-            Card temp = aDeck[i];
-            aDeck[i] = aDeck[number];
-            aDeck[number] = temp;
+            Card temp = aDeck.get(i);
+            aDeck.set(i, aDeck.get(number));
+            aDeck.set(number, temp);
 
          }
 
@@ -83,14 +89,9 @@ public class Deck
 
    Card deal()
    {
-      Card c = aDeck[aDeck.length-1];
-      Card[] temp = new Card[(Integer) null];
-      for (int i = 0; i < aDeck.length-1; i++)
-      {
-         temp[i] = aDeck[i];
-      }
-      aDeck = null;
-      aDeck = temp;
+      Card c = aDeck.get(aDeck.size()-1);
+      aDeck.remove(aDeck.size()-1);
+      size--;
       return c;
    }
 
@@ -98,7 +99,7 @@ public class Deck
 
    void add(Card c)
    {
-      aDeck[nextIndex] = c;
+      aDeck.add(c);
       nextIndex++;
 
    }
