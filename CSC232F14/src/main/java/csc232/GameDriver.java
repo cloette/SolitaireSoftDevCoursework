@@ -20,7 +20,7 @@ public class GameDriver {
          frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          
          JOptionPane.showMessageDialog(null, "Let's play Solitaire!","Message", JOptionPane.INFORMATION_MESSAGE);
-         JButton pushMe = new JButton("Deal the next card!");
+          JButton pushMe = new JButton("Deal the next card!");
          frame.add(pushMe);
          
          /** creates a deck */
@@ -54,17 +54,23 @@ public class GameDriver {
 
          while ( myDeck.size != 0)
          {
-            int cardValue = myDeck.cardValue(myDeck.size-1)+1;/** (rank, ace, jack, etc. 1-10) */
+//            int cardValue = myDeck.cardValue(myDeck.size-1)+1;/** (rank, ace, jack, etc. 1-10) */
             final Card printCard = myDeck.deal(); /** deals the next card */
-            if (cardValue <= 10)
+            if (printCard.getRank()+1 <= 10)
             {
-               for (int i = 0; i < cardValue; i++)
+               for (int i = 0; i < printCard.getRank()+1; i++)
                {
                   if(myDeck.isEmpty() == true)
                   {
                      JOptionPane.showMessageDialog(null, "You lost! Sorry. Better luck next time.");
                   }
-                  JOptionPane.showMessageDialog(null, myDeck.deal().toString());
+                  final Card nextCards = myDeck.deal();
+                  JOptionPane.showMessageDialog(null, "dealing "+ nextCards.toString());
+               }
+               
+               if (myDeck.isEmpty())
+               {
+                  JOptionPane.showMessageDialog(null, "You won! Congrats! Huzzah! You did it!");
                }
             }
             else
@@ -75,15 +81,18 @@ public class GameDriver {
                   {
                      JOptionPane.showMessageDialog(null, "You lost! Sorry. Better luck next time.");
                   }
-                  JOptionPane.showMessageDialog(null, myDeck.deal().toString());
+                  final Card nextCards = myDeck.deal();
+                  JOptionPane.showMessageDialog(null, "dealing "+ nextCards.toString());
                }
                
-               if ( myDeck.isEmpty() == true )
+               if (myDeck.isEmpty())
                {
-                  JOptionPane.showMessageDialog(null, "You won! Congrats! Huzzah! You did it!"); 
-               }
+                  JOptionPane.showMessageDialog(null, "You won! Congrats! Huzzah! You did it!");
+               } 
+              
             }
             
+           
             /**Displays the name of the card each time it is dealt. */
             pushMe.addActionListener(new ActionListener()
             {
@@ -93,7 +102,10 @@ public class GameDriver {
                }
             });
          }
+         
          frame.setVisible(true);
+         
+         
 }
 }
 
