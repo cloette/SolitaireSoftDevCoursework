@@ -1,139 +1,128 @@
 package timedpatience.model;
 
 import java.util.ArrayList;
+import java.util.EmptyStackException;
 import java.util.Random;
 
 /**
- * Due date: 10/17/14 Assignment: Homework #4
+ * CSC232A - Fall 2014
+ * 
  * 
  * @author Cloette Owensby, Bolun Zhang, Connie Uribe
  * 
- *         Creates a simple game of Solitaire, where the player must draw cards
- *         until the end of the aDeck is reached. If the player goes past the end
- *         of the aDeck, they lose the game.
+ *         The class represents a deck of cards. 
+ *         The Deck class contains operations that can be
+ *         performed on the deck, including filling the deck, 
+ *         shuffling the deck, clearing the deck, adding cards 
+ *         to the deck, and dealing cards from the deck. This 
+ *         class also checks to see if the deck is empty.
+ *---------------------------
+ *          Represent a deck of cards.
+ * 
+ * @author bhoward
  */
+
 
 public class Deck
 {
-   private int nextIndex;
-   private ArrayList<Card> aDeck;
-   public int size;
-   /* Fills up the aDeck with 52 cards. */
-
-  public Deck()
+   /**
+    * Construct an empty deck of cards.
+    */
+   public Deck()
    {
-      aDeck = new ArrayList<Card>();
-      size = 5;
+      cards = new ArrayList<Card>();
    }
-  
-  public int cardValue(int cardPosition){
-    return aDeck.get(cardPosition).getRank(); 
-  }
-  
+
+   /**
+    * Add a standard set of 52 playing cards to this deck. May be called
+    * multiple times to play with multiple decks.
+    */
    public void fill()
    {
-      nextIndex = 0;
-      for (int i = 0; i < 4; i++) /* for every suit */
+      for (Suit suit : Suit.values())
       {
-         for (int j = 0; j < 13; j++) /* for every rank */
+         for (Rank rank : Rank.values())
          {
-            Card c = new Card(i, j, 1); /* create a card */
-            add(c); /* add that card to the aDeck */
+            add(new Card(rank, suit));
          }
       }
    }
 
-   /* Shuffles the cards inside the array aDeck. */
+   /**
+    * Shuffle this deck into a random order, where all orderings are equally
+    * likely. Uses the <a
+    * href="http://en.wikipedia.org/wiki/Fisher-Yates_shuffle">Fisher-Yates
+    * algorithm</a>
+    */
    public void shuffle()
    {
-      if (aDeck == null)
+      // Alternately, just call Collections.shuffle(cards) ...
+      for (int i = cards.size(); i > 0; i--)
       {
-         System.out.println("empty aDeck!");
-         return;
-      }
-      else
-      {
-         for (int i = aDeck.size() - 1; i >= 0; i--)
-         {
+         // Choose a card from 0 to i-1
+         int j = random.nextInt(i);
 
-            // get random index, j, from 0 to i
-            Random c = new Random();
-            int number = c.nextInt(aDeck.size() - i);
-
-            // swap aDeck[i] with aDeck[j]
-            Card temp = aDeck.get(i);
-            aDeck.set(i, aDeck.get(number));
-            aDeck.set(number, temp);
-
-         }
-
+         // Swap that card with position i-1
+         Card temp = cards.get(i - 1);
+         cards.set(i - 1, cards.get(j));
+         cards.set(j, temp);
       }
    }
 
-
-   /* Shuffles the cards inside the array aDeck. */
-
-   /*
-    * void shuffle() { if (aDeck == null) { System.out.println("empty aDeck!");
-    * return; } else { for(int i = 0; i < 52; i++) { int random = (int
-    * )(Math.random() * 51 + 0); if (aDeck2[random] == null) { aDeck2[random] =
-    * aDeck[i]; } else { i--; } aDeck = aDeck2; } }
+   /**
+    * Remove and return the topmost (most recently added) card from this deck.
+    * If this deck is empty, throws {@link EmptyStackException}.
     * 
-    * }
+    * @return the former top card from this deck
     */
-
-   /*
-    * Prints the position of the card just removed, then removes the card.
-    * "Dealing card 1", "Dealing card 2"....
-    */
-
    public Card deal()
    {
-      Card c = aDeck.get(aDeck.size()-1);
-      aDeck.remove(aDeck.size()-1);
-      size--;
-      return c;
+      if (cards.isEmpty())
+      {
+         throw new EmptyStackException();
+      }
+      return cards.remove(cards.size() - 1);
    }
 
-   /* Add Card c to the top of the aDeck. */
-
-   public void add(Card c)
+   /**
+    * Add the given card to the top of this deck.
+    * 
+    * @param card
+    */
+   public void add(Card card)
    {
-      aDeck.add(c);
-      nextIndex++;
+      cards.add(card);
    }
 
-   /* Checks to see if there is a value in the current section of the array. */
-
+   /**
+    * Check whether this deck is empty.
+    * 
+    * @return true if there are no cards in the deck
+    */
    public boolean isEmpty()
    {
-
-      if (aDeck.size() == 0)
-      {
-         return true;
-      }
-      else
-      {
-         return false;
-      }
-
+      return cards.isEmpty();
    }
 
-   /* Empties the array (aDeck) of all stored cards. */
-
+   /**
+    * Clear out all of the cards from this deck, leaving it empty.
+    */
    public void clear()
    {
-      aDeck = null;
+      cards.clear();
+   }
+   
+   /**
+    * Get the number of cards in this deck.
+    * 
+    * @return the size of the deck
+    */
+   public int size()
+   {
+      return cards.size();
    }
 
-  public static void main(String[] arg){
-     Deck sampleDeck = new Deck();
-     sampleDeck.fill();
+   private ArrayList<Card> cards;
 
-
-     
-  }
-   
-   
-
+   private static Random random = new Random();
 }

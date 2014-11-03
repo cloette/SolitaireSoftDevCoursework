@@ -1,56 +1,90 @@
 package timedpatience.model;
+
 /**
-Due date: 09/17/14
-Assignment: Homework #2 
-@author Connie Uribe
-*
-Design decision: I chose to organize my Card class by creating the constructor,
-then the getters and setters methods, and lastly the fields. I chose to 
-organize it this way because that is one standard way of doing it. Other tha 
-*/
-
-public class Card
+ * CSC232A - Fall 2014
+ * Due date: 09/17/14
+ * Assignment: Homework #2 
+ * @author Connie Uribe(original), Bolun Zhang(revised), Cloette Owensby(comments)
+ * 
+ * Represent a card from an ordinary 52-card deck, including a rank, a suit, and
+ * whether the card is face-up or face-down. The rank and suit are immutable,
+ * but the face-up/face-down status may be changed.
+ * 
+ * @author bhoward
+ */
+public class Card implements Comparable<Card>
 {
-            private int Rank, Suit, Status;
+   /**
+    * Construct a card with the given rank and suit; it is initially face-down.
+    * 
+    * @param rank
+    * @param suit
+    */
+   public Card(Rank rank, Suit suit)
+   {
+      this.rank = rank;
+      this.suit = suit;
+      this.faceUp = false;
+   }
 
-            private static String[] suits = { "hearts", "spades", "diamonds", "clubs" };
-            private static String[] ranks  = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-            private static String[] status = {"Face up", "Face down"};
+   /**
+    * Construct a card with the given rank, suit, and face-up status.
+    * 
+    * @param rank
+    * @param suit
+    * @param faceUp true if the card is initially face-up
+    */
+   public Card(Rank rank, Suit suit, boolean faceUp)
+   {
+      this.rank = rank;
+      this.suit = suit;
+      this.faceUp = faceUp;
+   }
 
-            public Card(int St, int Rk, int Ss)
-            {
-                this.Rank=Rk;
-                this.Suit=St;
-                this.Status=Ss;
-            }
-            
-          /*  public Card(int Suit, int Rank, int Status)
-            {
-                this.Rank=Rank;
-                this.Suit=Suit;
-                this.Status=Status;
-            }*/
+   public Rank getRank()
+   {
+      return rank;
+   }
 
-            public String toString()
-            {
-                  return "suit: "+ suits[Suit]+" rank: "+ ranks[Rank]+ " status: "+ status[Status];
-                  //ranks[Rank] + " of " + suits[Suit] + ", "+ status[Status];
-            }
+   public Suit getSuit()
+   {
+      return suit;
+   }
 
-            public int getRank() {
-                 return Rank;
-            }
+   public boolean isFaceUp()
+   {
+      return faceUp;
+   }
 
-            public int getSuit() {
-                return Suit;
-            }
+   /**
+    * Change the state (face-up/face-down) by flipping the card over.
+    */
+   public void flip()
+   {
+      faceUp = !faceUp;
+   }
 
-            public int getStatus() {
-                return Status;
-            }
-        }
+   @Override
+   public String toString()
+   {
+      return "Card [rank=" + rank + ", suit=" + suit + ", faceUp=" + faceUp
+               + "]";
+   }
 
+   public int compareTo(Card other)
+   {
+      // Default comparison is by suit (alphabetically), then by rank (ace to
+      // king) within each suit
+      int result = suit.compareTo(other.suit);
+      if (result == 0)
+      {
+         result = rank.compareTo(other.rank);
+      }
 
+      return result;
+   }
 
-
-
+   private Rank rank;
+   private Suit suit;
+   private boolean faceUp;
+}

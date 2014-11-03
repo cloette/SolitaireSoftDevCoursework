@@ -2,65 +2,106 @@ package timedpatience.ui;
 
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import java.util.EmptyStackException;
 
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import timedpatience.model.Card;
 import timedpatience.model.Deck;
+import timedpatience.model.Rank;
+import timedpatience.model.Suit;
 
 public class DeckTest
 {
+   // This declares that by default we don't expect any thrown exceptions
+   @Rule
+   public ExpectedException thrown = ExpectedException.none();
 
    @Test
-   public void test()
+   public void testFill()
    {
-      //tests to see if the deck is set to the size when called on the fill function
-      Deck myDeck = new Deck();
-      myDeck.fill();
-      if(myDeck.equals(myDeck.size)){
-         assertTrue(true);
-      }
+      Deck d = new Deck();
+
+      d.fill();
+      assertEquals(52, d.size());
+
+      d.fill();
+      assertEquals(104, d.size());
+   }
+
+   @Test
+   public void testShuffle()
+   {
+      Deck d = new Deck();
+
+      Card c1 = new Card(Rank.Ace, Suit.Clubs);
+      Card c2 = new Card(Rank.Two, Suit.Diamonds);
+
+      d.add(c1);
+      d.add(c2);
+
+      d.shuffle();
+
+      Card c3 = d.deal();
+      Card c4 = d.deal();
+
+      assertTrue(c3.equals(c1) && c4.equals(c2)
+               || c3.equals(c2) && c4.equals(c1));
+   }
+
+   @Test
+   public void testDeal()
+   {
+      Deck d = new Deck();
+
+      Card c1 = new Card(Rank.Ace, Suit.Clubs);
+      Card c2 = new Card(Rank.Two, Suit.Diamonds);
+
+      d.add(c1);
+      d.add(c2);
+
+      Card c3 = d.deal();
+      Card c4 = d.deal();
+
+      assertTrue(c3.equals(c2) && c4.equals(c1));
+
+      // Now we expect an exception to be thrown
+      thrown.expect(EmptyStackException.class);
+      d.deal();
+      fail("The deck should have been empty");
+   }
+
+   @Test
+   public void testAdd()
+   {
+      Deck d = new Deck();
+      d.add(new Card(Rank.King, Suit.Clubs));
+      assertEquals(1, d.size());
       
-      //tests to see if the deck is set to null, when the array list is empty
-      myDeck.clear();
-      if(myDeck.equals(null)){
-         assertTrue(true);
-      }
+      d.add(new Card(Rank.Queen, Suit.Diamonds));
+      assertEquals(2, d.size());
+   }
+
+   @Test
+   public void testIsEmpty()
+   {
+      Deck d = new Deck();
+      assertTrue(d.isEmpty());
+      d.add(new Card(Rank.King, Suit.Clubs));
+      assertFalse(d.isEmpty());
       
-      //Test to see if the deal function removes the a card
-      myDeck.fill();
-      myDeck.deal();
-      if(myDeck.equals(myDeck.size - 1)){
-         assertTrue(true);
-      }
+   }
 
-      
-      
-      /**
-      Various tests for the Deck class
-      */
-
-      /**
-      1. Tests to see if the deck is set to null when the array list Deck is empty. 
-      */
-
-      /**
-      2. Tests to see if a Card exists in the array list once it is added to the Deck.
-      */
-
-      /**
-      3. Tests to see if the deck has been shuffled by looking at the order of the cards before and after shuffling. 
-      */
-
-      /**
-      4. Tests to see if a Card no longer exists in the array list once it is dealt.
-      */
-
-      /**
-      5. Tests to see if Deck throws the exception error when we try to delete more cards in the deck than the number of cards that exist/have been added.
-      */
-
-      /**
-      6. Adds an Ace of spades to the deck and then looks at the array list to find that ace of spades. Searches for a joker card that does not exist and returns an error message "_________ is not part of this deck."
-      */
+   @Test
+   public void testClear()
+   {
+      Deck d = new Deck();
+      d.fill();
+      d.clear();
+      assertTrue(d.isEmpty());
+      assertEquals(0, d.size());
    }
 
 }
