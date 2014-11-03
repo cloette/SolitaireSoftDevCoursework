@@ -1,4 +1,7 @@
-package csc232;
+package timedpatience.ui;
+
+import timedpatience.model.Card;
+import timedpatience.model.Deck;
 
 /*import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

@@ -1,4 +1,4 @@
-package csc232;
+package timedpatience.model;
 /**
 Due date: 09/17/14
 Assignment: Homework #2 
@@ -17,7 +17,7 @@ public class Card
             private static String[] ranks  = { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
             private static String[] status = {"Face up", "Face down"};
 
-            Card(int St, int Rk, int Ss)
+            public Card(int St, int Rk, int Ss)
             {
                 this.Rank=Rk;
                 this.Suit=St;

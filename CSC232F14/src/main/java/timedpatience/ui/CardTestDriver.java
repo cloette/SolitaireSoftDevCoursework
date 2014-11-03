@@ -1,4 +1,6 @@
-package csc232;
+package timedpatience.ui;
+
+import timedpatience.model.Card;
 
 /*
 @Author: Connie Uribe

@@ -1,8 +1,10 @@
-package csc232;
+package timedpatience.ui;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import timedpatience.model.Deck;
 
 public class DeckTest
 {

@@ -1,4 +1,4 @@
-package csc232;
+package timedpatience.model;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,7 +17,7 @@ public class Deck
 {
    private int nextIndex;
    private ArrayList<Card> aDeck;
-   int size;
+   public int size;
    /* Fills up the aDeck with 52 cards. */
 
   public Deck()
@@ -30,7 +30,7 @@ public class Deck
     return aDeck.get(cardPosition).getRank(); 
   }
   
-   void fill()
+   public void fill()
    {
       nextIndex = 0;
       for (int i = 0; i < 4; i++) /* for every suit */
@@ -44,7 +44,7 @@ public class Deck
    }
 
    /* Shuffles the cards inside the array aDeck. */
-   void shuffle()
+   public void shuffle()
    {
       if (aDeck == null)
       {
@@ -87,7 +87,7 @@ public class Deck
     * "Dealing card 1", "Dealing card 2"....
     */
 
-   Card deal()
+   public Card deal()
    {
       Card c = aDeck.get(aDeck.size()-1);
       aDeck.remove(aDeck.size()-1);
@@ -97,7 +97,7 @@ public class Deck
 
    /* Add Card c to the top of the aDeck. */
 
-   void add(Card c)
+   public void add(Card c)
    {
       aDeck.add(c);
       nextIndex++;
@@ -105,7 +105,7 @@ public class Deck
 
    /* Checks to see if there is a value in the current section of the array. */
 
-   boolean isEmpty()
+   public boolean isEmpty()
    {
 
       if (aDeck.size() == 0)
@@ -121,7 +121,7 @@ public class Deck
 
    /* Empties the array (aDeck) of all stored cards. */
 
-   void clear()
+   public void clear()
    {
       aDeck = null;
    }
