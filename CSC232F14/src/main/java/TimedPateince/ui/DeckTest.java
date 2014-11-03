@@ -1,5 +1,14 @@
 package csc232;
 
+/**
+ * CSC232A - Fall 2014
+ * Date: 010/11/2014
+ * 
+ * @author Connie Uribe, Bolun Zhang, Cloette Owensby
+ * 
+ *         This class exists to test the deck class.
+ */
+
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -10,20 +19,23 @@ public class DeckTest
    @Test
    public void test()
    {
-      //tests to see if the deck is set to the size when called on the fill function
+      /**tests to see if the deck is set to the size when called on the fill function.*/
+	   
       Deck myDeck = new Deck();
       myDeck.fill();
       if(myDeck.equals(myDeck.size)){
          assertTrue(true);
       }
       
-      //tests to see if the deck is set to null, when the array list is empty
+      /**tests to see if the deck is set to null, when the array list is empty.*/
+      
       myDeck.clear();
       if(myDeck.equals(null)){
          assertTrue(true);
       }
       
-      //Test to see if the deal function removes the a card
+      /**Test to see if the deal function removes the a card.*/
+      
       myDeck.fill();
       myDeck.deal();
       if(myDeck.equals(myDeck.size - 1)){

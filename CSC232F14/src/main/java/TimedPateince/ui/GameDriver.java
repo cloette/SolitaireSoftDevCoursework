@@ -1,13 +1,23 @@
 package csc232;
 
+/**
+ * CSC232A - Fall 2014
+ * Due date: 10/11/14 Assignment: Homework #4
+ * 
+ * @author Cloette Owensby, Bolun Zhang, Connie Uribe
+ * 
+ * 		   Creates a simple game of Solitaire, where the player must draw cards
+ *         until the end of the aDeck is reached. If the player goes past the end
+ *         of the aDeck, they lose the game. This class exists to manage the user 
+ *         prompts and operation of the game. 
+ */
+
 /*import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+/*import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;*/
-
-/** This class exists to manage the user prompts and operation of the game. */
+/*import javax.swing.JButton;
+/*import javax.swing.JFrame;
+/*import javax.swing.JOptionPane;*/
 
 public class GameDriver {
    
@@ -16,12 +26,12 @@ public class GameDriver {
          /** Creates a simple user interface to test out and debug the Solitaire game. */
          
          /*JFrame frame = new JFrame();
-         frame.setSize(400, 300);
-         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+         /*frame.setSize(400, 300);
+         /*frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
          
-         JOptionPane.showMessageDialog(null, "Let's play Solitaire!","Message", JOptionPane.INFORMATION_MESSAGE);
-          JButton pushMe = new JButton("Deal the next card!");
-         frame.add(pushMe);*/
+         /*JOptionPane.showMessageDialog(null, "Let's play Solitaire!","Message", JOptionPane.INFORMATION_MESSAGE);
+         /* JButton pushMe = new JButton("Deal the next card!");
+         /*frame.add(pushMe);*/
          
          /** creates a deck */
 
@@ -54,13 +64,15 @@ public class GameDriver {
 
          while ( myDeck.size != 0)
          {
-//            int cardValue = myDeck.cardValue(myDeck.size-1)+1;/** (rank, ace, jack, etc. 1-10) */
+/*            int cardValue = myDeck.cardValue(myDeck.size-1)+1;/** (rank, ace, jack, etc. 1-10) */
             final Card printCard = myDeck.deal(); /** deals the next card */
             System.out.println("in hand "+ printCard.toString());
+            
             if (printCard.getRank()+1 <= 10)
             {
                for (int i = 0; i < printCard.getRank()+1; i++)
-               {
+            	   	
+            	   /** Dislays the gameover message if the deck runs out of cards. */
                   if(myDeck.isEmpty() == true)
                   {
                     System.out.println("You lost! Sorry. Better luck next time.");
@@ -69,18 +81,21 @@ public class GameDriver {
                   final Card nextCards = myDeck.deal();
                   System.out.println("dealing "+ nextCards.toString());
                }
-               
+            
+            		/** Dislays the victory message if the deck is empty. */
                if (myDeck.isEmpty())
                {
                   System.out.println("You won! Congrats! Huzzah! You did it!");
                   return;
                }
             }
+         
             else
             {
                for (int i = 0; i < 10; i++)
                {
-                  if(myDeck.isEmpty() == true)
+            	   	/** Dislays the gameover message if the deck runs out of cards. */
+            	  if(myDeck.isEmpty() == true)
                   {
                      System.out.println("You lost! Sorry. Better luck next time.");
                      return;
@@ -89,6 +104,7 @@ public class GameDriver {
                   System.out.println("dealing "+ nextCards.toString());
                }
                
+               		/** Dislays the victory message if the deck is empty. */
                if (myDeck.isEmpty())
                {
                   System.out.println("You won! Congrats! Huzzah! You did it!");
@@ -108,7 +124,7 @@ public class GameDriver {
             });*/
          }
          
-        // frame.setVisible(true);
+        /* frame.setVisible(true);
          
          
 }

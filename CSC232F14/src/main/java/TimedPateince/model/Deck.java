@@ -1,16 +1,19 @@
-package csc232;
+package TimedPatience;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * CSC232A - Fall 2014
  * Due date: 10/17/14 Assignment: Homework #4
  * 
  * @author Cloette Owensby, Bolun Zhang, Connie Uribe
  * 
- *         Creates a simple game of Solitaire, where the player must draw cards
- *         until the end of the aDeck is reached. If the player goes past the end
- *         of the aDeck, they lose the game.
+ *         The Deck class contains operations that can be
+ *         performed on the deck, including filling he deck, 
+ *         shuffling the deck, clearing the deck, adding cards 
+ *         to the deck, and dealing cards from the deck. This 
+ *         class also checks to see if the deck is empty.
  */
 
 public class Deck
@@ -18,17 +21,23 @@ public class Deck
    private int nextIndex;
    private ArrayList<Card> aDeck;
    int size;
-   /* Fills up the aDeck with 52 cards. */
+   
+   /** Constructs an array of 52 cards to act as the deck. */
 
   public Deck()
    {
       aDeck = new ArrayList<Card>();
-      size = 5;
+      size = 52;
    }
+  
+  /** Getter method for finding a card's value (rank and suit) from its position in the deck.*/
   
   public int cardValue(int cardPosition){
     return aDeck.get(cardPosition).getRank(); 
   }
+  
+  /** Fills the deck with the standard library of 52 cards with 
+   * 4 aces for each suit, 4 kings, 4 queens etc.*/
   
    void fill()
    {
@@ -43,14 +52,19 @@ public class Deck
       }
    }
 
-   /* Shuffles the cards inside the array aDeck. */
+   /** Shuffles the cards inside the Deck. */
+   
    void shuffle()
    {
+	   /** If the deck is empty, throw an error!*/
+	   
       if (aDeck == null)
       {
          System.out.println("empty aDeck!");
          return;
       }
+      /** Creates a randomized array of the cards in Deck 
+       * and swaps it with the current Deck. */
       else
       {
          for (int i = aDeck.size() - 1; i >= 0; i--)
@@ -71,7 +85,7 @@ public class Deck
    }
 
 
-   /* Shuffles the cards inside the array aDeck. */
+   /** Shuffles the cards inside the array aDeck. (Still needs revision.) */
 
    /*
     * void shuffle() { if (aDeck == null) { System.out.println("empty aDeck!");
@@ -82,7 +96,7 @@ public class Deck
     * }
     */
 
-   /*
+   /**
     * Prints the position of the card just removed, then removes the card.
     * "Dealing card 1", "Dealing card 2"....
     */
@@ -95,7 +109,7 @@ public class Deck
       return c;
    }
 
-   /* Add Card c to the top of the aDeck. */
+   /** Add Card c to the top of the deck. */
 
    void add(Card c)
    {
@@ -103,7 +117,7 @@ public class Deck
       nextIndex++;
    }
 
-   /* Checks to see if there is a value in the current section of the array. */
+   /** Checks to see if there is a value in the current section of the array. */
 
    boolean isEmpty()
    {
@@ -119,12 +133,14 @@ public class Deck
 
    }
 
-   /* Empties the array (aDeck) of all stored cards. */
+   /** Empties the deck of all stored cards. */
 
    void clear()
    {
       aDeck = null;
    }
+   
+   /** Constructs a new deck and fills it with the standard card library.*/
 
   public static void main(String[] arg){
      Deck sampleDeck = new Deck();

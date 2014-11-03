@@ -1,12 +1,18 @@
-package csc232;
+package TimedPatience;
 
-/*
-@Author: Connie Uribe
-Date: 09/17/2014
-This file is to test the Card.java file
-*/
+/**
+ * CSC232A - Fall 2014
+ * Date: 09/17/2014
+ * 
+ * @author Connie Uribe, Bolun Zhang, Cloette Owensby
+ * 
+ *         This file is to test the Card.java file.
+ */
+
 public class CardTestDriver
 {
+	/** Creates two distinct cards and prints them each on a new line. */
+	
        public static void main(String[] args)
        {
                Card card1 = new Card( 2,2,1);
