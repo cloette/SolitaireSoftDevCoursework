@@ -16,6 +16,7 @@ import timedpatience.model.Suit;
 public class DeckTest
 {
    // This declares that by default we don't expect any thrown exceptions
+	
    @Rule
    public ExpectedException thrown = ExpectedException.none();
 

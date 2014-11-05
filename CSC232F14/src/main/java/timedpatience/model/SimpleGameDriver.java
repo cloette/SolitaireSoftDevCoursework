@@ -6,6 +6,7 @@ package timedpatience.model;
  * 
  * @author bhoward
  */
+
 public class SimpleGameDriver
 {
    public static void main(String[] args)

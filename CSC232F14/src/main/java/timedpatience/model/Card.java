@@ -12,6 +12,7 @@ package timedpatience.model;
  * 
  * @author bhoward
  */
+
 public class Card implements Comparable<Card>
 {
    /**
@@ -20,6 +21,7 @@ public class Card implements Comparable<Card>
     * @param rank
     * @param suit
     */
+	
    public Card(Rank rank, Suit suit)
    {
       this.rank = rank;
@@ -34,22 +36,29 @@ public class Card implements Comparable<Card>
     * @param suit
     * @param faceUp true if the card is initially face-up
     */
+   
    public Card(Rank rank, Suit suit, boolean faceUp)
    {
       this.rank = rank;
       this.suit = suit;
       this.faceUp = faceUp;
    }
+   
+   /** Get the rank of a card. */
 
    public Rank getRank()
    {
       return rank;
    }
+   
+   /** Get the suit of a card. */
 
    public Suit getSuit()
    {
       return suit;
    }
+   
+   /** Checks to see if the card is face up. */
 
    public boolean isFaceUp()
    {
@@ -59,10 +68,13 @@ public class Card implements Comparable<Card>
    /**
     * Change the state (face-up/face-down) by flipping the card over.
     */
+   
    public void flip()
    {
       faceUp = !faceUp;
    }
+   
+   /** Translates the card values back into a string. */
 
    @Override
    public String toString()
@@ -70,6 +82,12 @@ public class Card implements Comparable<Card>
       return "Card [rank=" + rank + ", suit=" + suit + ", faceUp=" + faceUp
                + "]";
    }
+   
+   /** Compares cards by suit(alphabetically), then by rank (ace to
+      * king) within each suit. 
+      *  
+      * @param Card 
+      */
 
    public int compareTo(Card other)
    {

@@ -6,9 +6,13 @@ package timedpatience.model;
  * 
  * @author bhoward
  */
+
 public enum Suit
 {
    Clubs(false), Diamonds(true), Hearts(true), Spades(false);
+   
+   /** Translates the suit of a card into either Diamonds & Hearts (red) 
+    * or Spades & Clubs (black).  */
    
    Suit(boolean isRed) {
       this.isRed = isRed;
@@ -19,6 +23,7 @@ public enum Suit
     * 
     * @return true if red, false if black
     */
+   
    public boolean isRed()
    {
       return isRed;

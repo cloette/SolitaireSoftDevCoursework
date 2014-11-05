@@ -28,6 +28,7 @@ public class Deck
    /**
     * Construct an empty deck of cards.
     */
+	
    public Deck()
    {
       cards = new ArrayList<Card>();
@@ -37,6 +38,7 @@ public class Deck
     * Add a standard set of 52 playing cards to this deck. May be called
     * multiple times to play with multiple decks.
     */
+   
    public void fill()
    {
       for (Suit suit : Suit.values())
@@ -54,6 +56,7 @@ public class Deck
     * href="http://en.wikipedia.org/wiki/Fisher-Yates_shuffle">Fisher-Yates
     * algorithm</a>
     */
+   
    public void shuffle()
    {
       // Alternately, just call Collections.shuffle(cards) ...
@@ -75,6 +78,7 @@ public class Deck
     * 
     * @return the former top card from this deck
     */
+   
    public Card deal()
    {
       if (cards.isEmpty())
@@ -89,6 +93,7 @@ public class Deck
     * 
     * @param card
     */
+   
    public void add(Card card)
    {
       cards.add(card);
@@ -99,6 +104,7 @@ public class Deck
     * 
     * @return true if there are no cards in the deck
     */
+   
    public boolean isEmpty()
    {
       return cards.isEmpty();
@@ -107,6 +113,7 @@ public class Deck
    /**
     * Clear out all of the cards from this deck, leaving it empty.
     */
+   
    public void clear()
    {
       cards.clear();
@@ -117,6 +124,7 @@ public class Deck
     * 
     * @return the size of the deck
     */
+   
    public int size()
    {
       return cards.size();
