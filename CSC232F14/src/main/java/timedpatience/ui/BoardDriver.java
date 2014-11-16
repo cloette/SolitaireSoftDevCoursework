@@ -3,6 +3,7 @@ package timedpatience.ui;
 import java.io.File;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import timedpatience.model.Card;
@@ -16,51 +17,100 @@ public class BoardDriver
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       frame.setSize(400, 300);
       
-      Deck deckA = new Deck();
+      final Deck deckA = new Deck();
       deckA.fill();
-      deckA.getTop().flip();
+      deckA.shuffle();
       
-      Deck deckB = new Deck();
-      deckB.add(deckA.deal());
+      final Deck deckB = new Deck();
+      final Deck deckC = new Deck();
+      final Deck deckD = new Deck();
+      final Deck deckE = new Deck();
       
-      Deck deckC = new Deck();
-      deckC.add(deckA.deal());
-      
-      Deck deckD = new Deck();
-      deckD.add(deckA.deal());
-      
-      Deck deckE = new Deck();
-      deckE.add(deckA.deal());
-      
-      deckA.getTop().flip();
+
       
       File imageDirectory = new File("src/main/resources/cards");
       CardImages images = new CardImages(imageDirectory);
       
       final DeckComponent dcA = new DeckComponent(deckA, images);
       final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_HORIZONTAL);
-      final DeckComponent dcD = new DeckComponent(deckC, images, DeckComponent.FAN_HORIZONTAL);
-      final DeckComponent dcE = new DeckComponent(deckC, images, DeckComponent.FAN_HORIZONTAL);
+      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL);
       
       dcA.setDeckListener(new DeckListener()
       {
          public void handleClick(DeckComponent deckComponent)
          {
             // When clicked, deal a card to deck B, C, D, and E.
-            Card card = deckComponent.removeTopCard();
             
             Card newTop = deckComponent.getTopCard();
+            
+            if (newTop == null){
+               if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty()){
+                  JOptionPane.showMessageDialog(null, "Congrats! You won. Play again?");
+                  deckA.fill();
+                  deckA.shuffle();
+               }
+               //all the cards go back into the stock pile
+               else{
+                  for (int i=deckB.size(); i>0; i--){
+                     Card card1 = dcB.getTopCard();
+                     card1.flip();
+                     dcB.removeTopCard();
+                     deckA.add(card1);
+                     
+                  }
+                  for (int i=deckC.size(); i>0; i--){
+                     Card card2 = dcC.getTopCard();
+                     card2.flip();
+                     dcC.removeTopCard();
+                     deckA.add(card2);
+                  }
+                  for (int i=deckD.size(); i>0; i--){
+                     Card card3 = dcD.getTopCard();
+                     card3.flip();
+                     dcD.removeTopCard();
+                     deckA.add(card3);
+                  }
+                  for (int i=deckE.size(); i>0; i--){
+                     Card card4 = dcE.getTopCard();
+                     card4.flip();
+                     dcE.removeTopCard();
+                     deckA.add(card4);
+                  }
+               }
+            }
+               
             if (newTop != null && !newTop.isFaceUp()) {
-               deckComponent.flipTopCard();
+               //deckComponent.flipTopCard();
             }
             
-            if (card != null)
+            Card card1 = deckComponent.removeTopCard();
+            Card card2 = deckComponent.removeTopCard();
+            Card card3 = deckComponent.removeTopCard();
+            Card card4 = deckComponent.removeTopCard();
+            
+            if (card1 != null && card2 != null && card3 != null && card4 != null)
             {
-               dcB.addCard(card);
-               dcC.addCard(card);
-               dcD.addCard(card);
-               dcE.addCard(card);
+               dcB.addCard(card1);
+               dcB.flipTopCard();
+               dcC.addCard(card2);
+               dcC.flipTopCard();
+               dcD.addCard(card3);
+               dcD.flipTopCard();
+               dcE.addCard(card4);
+               dcE.flipTopCard();
+               
+               if (card1.getRank() == card2.getRank() && card2.getRank() == card3.getRank() && card3.getRank() == card4.getRank())
+               {
+                 dcB.removeTopCard();
+                 dcC.removeTopCard();
+                 dcD.removeTopCard();
+                 dcE.removeTopCard();
+                 JOptionPane.showMessageDialog(null, "All cards had the same rank and were automatically removed.");
+               }
+                              
+               //dcA.flipTopCard();
             }
          }
          
