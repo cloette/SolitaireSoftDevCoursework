@@ -2,33 +2,19 @@ package timedpatience.model;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
- * CSC232A - Fall 2014
- * 
- * 
- * @author Cloette Owensby, Bolun Zhang, Connie Uribe
- * 
- *         The class represents a deck of cards. 
- *         The Deck class contains operations that can be
- *         performed on the deck, including filling the deck, 
- *         shuffling the deck, clearing the deck, adding cards 
- *         to the deck, and dealing cards from the deck. This 
- *         class also checks to see if the deck is empty.
- *---------------------------
- *          Represent a deck of cards.
+ * Represent a deck of cards.
  * 
  * @author bhoward
  */
-
-
-public class Deck
+public class Deck implements Iterable<Card>
 {
    /**
     * Construct an empty deck of cards.
     */
-	
    public Deck()
    {
       cards = new ArrayList<Card>();
@@ -38,7 +24,6 @@ public class Deck
     * Add a standard set of 52 playing cards to this deck. May be called
     * multiple times to play with multiple decks.
     */
-   
    public void fill()
    {
       for (Suit suit : Suit.values())
@@ -56,7 +41,6 @@ public class Deck
     * href="http://en.wikipedia.org/wiki/Fisher-Yates_shuffle">Fisher-Yates
     * algorithm</a>
     */
-   
    public void shuffle()
    {
       // Alternately, just call Collections.shuffle(cards) ...
@@ -78,7 +62,6 @@ public class Deck
     * 
     * @return the former top card from this deck
     */
-   
    public Card deal()
    {
       if (cards.isEmpty())
@@ -93,18 +76,31 @@ public class Deck
     * 
     * @param card
     */
-   
    public void add(Card card)
    {
       cards.add(card);
    }
 
    /**
+    * Look at the topmost (most recently added) card of this deck.
+    * If this deck is empty, throws {@link EmptyStackException}.
+    * 
+    * @return the top card
+    */
+   public Card getTop()
+   {
+      if (cards.isEmpty())
+      {
+         throw new EmptyStackException();
+      }
+      return cards.get(cards.size() - 1);
+   }
+   
+   /**
     * Check whether this deck is empty.
     * 
     * @return true if there are no cards in the deck
     */
-   
    public boolean isEmpty()
    {
       return cards.isEmpty();
@@ -113,7 +109,6 @@ public class Deck
    /**
     * Clear out all of the cards from this deck, leaving it empty.
     */
-   
    public void clear()
    {
       cards.clear();
@@ -124,12 +119,19 @@ public class Deck
     * 
     * @return the size of the deck
     */
-   
    public int size()
    {
       return cards.size();
    }
 
+   /* (non-Javadoc)
+    * @see java.lang.Iterable#iterator()
+    */
+   public Iterator<Card> iterator()
+   {
+      return cards.iterator();
+   }
+   
    private ArrayList<Card> cards;
 
    private static Random random = new Random();

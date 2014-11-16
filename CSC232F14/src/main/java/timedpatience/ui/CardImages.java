@@ -9,7 +9,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import timedpatience.model.Card;
+import bhsol.model.Card;
 
 /**
  * Manage a set of playing card images loaded from a directory of image files.

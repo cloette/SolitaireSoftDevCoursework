@@ -1,18 +1,12 @@
 package timedpatience.model;
 
 /**
- * CSC232A - Fall 2014
- * Due date: 09/17/14
- * Assignment: Homework #2 
- * @author Connie Uribe(original), Bolun Zhang(revised), Cloette Owensby(comments)
- * 
  * Represent a card from an ordinary 52-card deck, including a rank, a suit, and
  * whether the card is face-up or face-down. The rank and suit are immutable,
  * but the face-up/face-down status may be changed.
  * 
  * @author bhoward
  */
-
 public class Card implements Comparable<Card>
 {
    /**
@@ -21,7 +15,6 @@ public class Card implements Comparable<Card>
     * @param rank
     * @param suit
     */
-	
    public Card(Rank rank, Suit suit)
    {
       this.rank = rank;
@@ -34,31 +27,25 @@ public class Card implements Comparable<Card>
     * 
     * @param rank
     * @param suit
-    * @param faceUp true if the card is initially face-up
+    * @param faceUp
+    *           true if the card is initially face-up
     */
-   
    public Card(Rank rank, Suit suit, boolean faceUp)
    {
       this.rank = rank;
       this.suit = suit;
       this.faceUp = faceUp;
    }
-   
-   /** Get the rank of a card. */
 
    public Rank getRank()
    {
       return rank;
    }
-   
-   /** Get the suit of a card. */
 
    public Suit getSuit()
    {
       return suit;
    }
-   
-   /** Checks to see if the card is face up. */
 
    public boolean isFaceUp()
    {
@@ -68,13 +55,21 @@ public class Card implements Comparable<Card>
    /**
     * Change the state (face-up/face-down) by flipping the card over.
     */
-   
    public void flip()
    {
       faceUp = !faceUp;
    }
-   
-   /** Translates the card values back into a string. */
+
+   /**
+    * Get a two-letter abbreviation for this card, such as "AH" for the Ace of
+    * Hearts.
+    * 
+    * @return a two-character String: rank and suit
+    */
+   public String getAbbrev()
+   {
+      return "" + rank.getAbbrev() + suit.getAbbrev();
+   }
 
    @Override
    public String toString()
@@ -82,12 +77,6 @@ public class Card implements Comparable<Card>
       return "Card [rank=" + rank + ", suit=" + suit + ", faceUp=" + faceUp
                + "]";
    }
-   
-   /** Compares cards by suit(alphabetically), then by rank (ace to
-      * king) within each suit. 
-      *  
-      * @param Card 
-      */
 
    public int compareTo(Card other)
    {

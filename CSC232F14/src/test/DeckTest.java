@@ -1,6 +1,9 @@
-package timedpatience.ui;
+package timedpatience.model;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.EmptyStackException;
 
@@ -8,15 +11,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import timedpatience.model.Card;
-import timedpatience.model.Deck;
-import timedpatience.model.Rank;
-import timedpatience.model.Suit;
-
 public class DeckTest
 {
    // This declares that by default we don't expect any thrown exceptions
-	
    @Rule
    public ExpectedException thrown = ExpectedException.none();
 

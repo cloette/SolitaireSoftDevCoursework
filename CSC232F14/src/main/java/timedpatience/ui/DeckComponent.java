@@ -13,8 +13,8 @@ import java.io.IOException;
 import javax.swing.JComponent;
 import javax.swing.TransferHandler;
 
-import timedpatience.model.Card;
-import timedpatience.model.Deck;
+import bhsol.model.Card;
+import bhsol.model.Deck;
 
 /**
  * A Swing GUI component that displays a {@link Deck} of {@link Card} objects,

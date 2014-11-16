@@ -1,12 +1,13 @@
-package timedpatience.model;
+package timedpatience.ui;
 
+import timedpatience.model.Card;
+import timedpatience.model.Deck;
 
 /**
  * Plays a simple card game, as described in Homework #4.
  * 
  * @author bhoward
  */
-
 public class SimpleGameDriver
 {
    public static void main(String[] args)
@@ -45,4 +46,3 @@ public class SimpleGameDriver
       }
    }
 }
-
