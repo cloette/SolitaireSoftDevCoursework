@@ -3,7 +3,7 @@ package timedpatience.ui;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 
-import bhsol.model.Card;
+import timedpatience.model.Card;
 
 /**
  * A {@link Transferable} class for playing cards, to support drag-and-drop.

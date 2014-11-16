@@ -5,8 +5,8 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import bhsol.model.Card;
-import bhsol.model.Deck;
+import timedpatience.model.Card;
+import timedpatience.model.Deck;
 
 public class GUIDemo
 {
