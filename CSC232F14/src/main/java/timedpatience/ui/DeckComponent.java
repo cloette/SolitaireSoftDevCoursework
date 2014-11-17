@@ -109,6 +109,18 @@ public class DeckComponent extends JComponent
          return null;
       }
    }
+   
+   public Card getPrevCard()
+   {
+      if (!deck.isEmpty())
+      {
+         return deck.getPrev();
+      }
+      else
+      {
+         return null;
+      }
+   }
 
    /**
     * Remove the top card from the deck.
@@ -166,7 +178,9 @@ public class DeckComponent extends JComponent
       // Create a transfer handler that allows the top card of one deck to be
       // dragged and dropped onto another deck (unless a listener replies false
       // to checkDrop(card))
+      
       this.setTransferHandler(new TransferHandler()
+      
       {
          public int getSourceActions(JComponent c)
          {
@@ -187,6 +201,7 @@ public class DeckComponent extends JComponent
 
          // This is called to check whether the currently dragged card may be
          // dropped onto this deck
+         
          public boolean canImport(TransferSupport support)
          {
             Card card = getCard(support.getTransferable());

@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import timedpatience.model.Deck;
+
 public class CardTest
 {
 
@@ -67,5 +69,12 @@ public class CardTest
       assertTrue(c3.compareTo(c1) < 0);
       assertTrue(c3.compareTo(c2) > 0);
       assertTrue(c3.compareTo(c3) == 0);
+   }
+   
+   
+   public void testIsAbbrev(){
+      Card c = new Card(Rank.Ace, Suit.Spades);
+      assertEquals("Card [1S]", c.getAbbrev());
+      
    }
 }

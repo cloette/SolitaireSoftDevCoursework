@@ -1,5 +1,13 @@
 package timedpatience.ui;
 
+/**
+ * Creates a game of Perpetual Motion. User wins when there are
+ * no cards left in any of the piles.
+ * 
+ * @author Cloette Owensby, Connie Uribe, Bolun Zhang
+ * @date 11/16/2014
+ */
+
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -17,16 +25,20 @@ public class BoardDriver
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       frame.setSize(400, 300);
       
+      // Creates the stock pile.
+      
       final Deck deckA = new Deck();
       deckA.fill();
       deckA.shuffle();
+      
+      // Creates the other four piles
       
       final Deck deckB = new Deck();
       final Deck deckC = new Deck();
       final Deck deckD = new Deck();
       final Deck deckE = new Deck();
       
-
+      // Loads the card images
       
       File imageDirectory = new File("src/main/resources/cards");
       CardImages images = new CardImages(imageDirectory);
@@ -43,16 +55,18 @@ public class BoardDriver
          {
             // When clicked, deal a card to deck B, C, D, and E.
             
-            Card newTop = deckComponent.getTopCard();
+            Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
             if (newTop == null){
+               // If all piles are empty, the user has won. Print a winner message.
                if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty()){
                   JOptionPane.showMessageDialog(null, "Congrats! You won. Play again?");
                   deckA.fill();
                   deckA.shuffle();
                }
-               //all the cards go back into the stock pile
+               // all the cards go back into the stock pile
                else{
+                  // empties out the pile back into the stock
                   for (int i=deckB.size(); i>0; i--){
                      Card card1 = dcB.getTopCard();
                      card1.flip();
@@ -60,18 +74,21 @@ public class BoardDriver
                      deckA.add(card1);
                      
                   }
+                  // empties out the pile back into the stock
                   for (int i=deckC.size(); i>0; i--){
                      Card card2 = dcC.getTopCard();
                      card2.flip();
                      dcC.removeTopCard();
                      deckA.add(card2);
                   }
+                  // empties out the pile back into the stock
                   for (int i=deckD.size(); i>0; i--){
                      Card card3 = dcD.getTopCard();
                      card3.flip();
                      dcD.removeTopCard();
                      deckA.add(card3);
                   }
+                  // empties out the pile back into the stock
                   for (int i=deckE.size(); i>0; i--){
                      Card card4 = dcE.getTopCard();
                      card4.flip();
@@ -90,6 +107,8 @@ public class BoardDriver
             Card card3 = deckComponent.removeTopCard();
             Card card4 = deckComponent.removeTopCard();
             
+            // as long as there are enough cards left to deal, deal them upon click
+            
             if (card1 != null && card2 != null && card3 != null && card4 != null)
             {
                dcB.addCard(card1);
@@ -101,6 +120,8 @@ public class BoardDriver
                dcE.addCard(card4);
                dcE.flipTopCard();
                
+               // if all dealt cards have the same rank, remove those 4 from the board
+               
                if (card1.getRank() == card2.getRank() && card2.getRank() == card3.getRank() && card3.getRank() == card4.getRank())
                {
                  dcB.removeTopCard();
@@ -109,23 +130,93 @@ public class BoardDriver
                  dcE.removeTopCard();
                  JOptionPane.showMessageDialog(null, "All cards had the same rank and were automatically removed.");
                }
-                              
-               //dcA.flipTopCard();
+                             
             }
          }
          
+         // Dragging the card
+         
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
-            // Only allow drops of the same suit as the top card
-            return card.getSuit().equals(deckComponent.getTopCard().getSuit());
+            // Never allows drops.
+            return false;
          }
       });
+      
+      dcB.setDeckListener(new DeckListener()
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+            }
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+      });
+      
+      dcC.setDeckListener(new DeckListener()
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+            }
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+      });
+      
+      dcD.setDeckListener(new DeckListener()
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+            }
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+      });
+      
+      dcE.setDeckListener(new DeckListener()
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+            }
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+      });
+      
+      
+      // allows the cards to be dragged onto other DeckComponents
       
       dcA.setDraggable(true);
       dcB.setDraggable(true);
       dcC.setDraggable(true);
       dcD.setDraggable(true);
       dcE.setDraggable(true);
+      
+      // Creates the board and the 5 piles.
             
       JPanel panel = new JPanel();
       panel.add(dcA);

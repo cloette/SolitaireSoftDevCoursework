@@ -11,6 +11,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import timedpatience.model.Deck;
+import timedpatience.model.Rank;
+import timedpatience.model.Suit;
+
 public class DeckTest
 {
    // This declares that by default we don't expect any thrown exceptions
@@ -101,5 +105,20 @@ public class DeckTest
       assertTrue(d.isEmpty());
       assertEquals(0, d.size());
    }
+   
+   @Test
+   public void testIsPrev(){
+      Deck d = new Deck();
+      Card c1 = new Card(Rank.King, Suit.Clubs);
+      d.add(c1);
+      d.add(new Card(Rank.Queen, Suit.Diamonds));
+      assertTrue(d.getPrev().equals(c1));
+      d.clear();
+      assertFalse(d.getPrev().equals(c1));
+
+   }
+
+   
+   
 
 }
