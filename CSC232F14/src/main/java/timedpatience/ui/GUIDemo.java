@@ -27,7 +27,7 @@ public class GUIDemo
       
       deckA.getTop().flip();
       
-      File imageDirectory = new File("src/main/resources/cards");
+      File imageDirectory = new File("src/main/Resources/Cards");
       CardImages images = new CardImages(imageDirectory);
       
       final DeckComponent dcA = new DeckComponent(deckA, images);

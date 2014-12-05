@@ -27,6 +27,11 @@ import timedpatience.model.Deck;
 public class DeckComponent extends JComponent
 {
    /**
+    * 
+    */
+   private static final long serialVersionUID = 1L;
+
+   /**
     * Construct a <code>DeckComponent</code> with a given deck and card images.
     * The deck is squared (<i>i.e.</i>, it is not fanned-out).
     * 
@@ -182,6 +187,11 @@ public class DeckComponent extends JComponent
       this.setTransferHandler(new TransferHandler()
       
       {
+         /**
+          * 
+          */
+         private static final long serialVersionUID = 1L;
+
          public int getSourceActions(JComponent c)
          {
             if (getTopCard() != null)

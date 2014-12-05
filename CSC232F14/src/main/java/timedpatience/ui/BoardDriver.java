@@ -40,7 +40,7 @@ public class BoardDriver
       
       // Loads the card images
       
-      File imageDirectory = new File("src/main/resources/cards");
+      File imageDirectory = new File("src/main/Resources/Cards");
       CardImages images = new CardImages(imageDirectory);
       
       final DeckComponent dcA = new DeckComponent(deckA, images);
