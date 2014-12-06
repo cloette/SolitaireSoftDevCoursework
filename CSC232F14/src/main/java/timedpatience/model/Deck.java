@@ -96,6 +96,15 @@ public class Deck implements Iterable<Card>
       return cards.get(cards.size() - 1);
    }
    
+   public Card getNum(int i)
+   {
+      if (cards.isEmpty() || i > cards.size() - 1 || i < 0)
+      {
+         throw new EmptyStackException();
+      }
+      return cards.get(i);
+   }
+   
    public Card getPrev()
    {
       if (cards.isEmpty())

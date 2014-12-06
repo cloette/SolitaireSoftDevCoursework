@@ -29,7 +29,7 @@ import timedpatience.model.Deck;
 
 
 
-public class BoardDriver extends JPanel 
+public class Baroness extends JPanel 
 {
    //private static JTextField ORE;
    static int score = 0;
@@ -38,7 +38,7 @@ public class BoardDriver extends JPanel
    public static void main(String[] args)
    { 
      // JTextField SC = null;
-      JFrame frame = new JFrame("BoardDriver");
+      JFrame frame = new JFrame("Baroness");
       JPanel sub = new JPanel();
       JPanel subb = new JPanel();
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -91,7 +91,7 @@ public class BoardDriver extends JPanel
          {
             // When clicked, deal a card to deck B, C, D, and E.
             
-            tempDeckA.clear();
+            /*tempDeckA.clear();
             tempDeckB.clear();
             tempDeckC.clear();
             tempDeckD.clear();
@@ -115,7 +115,7 @@ public class BoardDriver extends JPanel
             for (int i = 0; i < deckE.size(); i++)
                {
                tempDeckE.add(deckE.getNum(i));
-               }
+               }*/
             
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
@@ -123,41 +123,15 @@ public class BoardDriver extends JPanel
                // If all piles are empty, the user has won. Print a winner message.
                if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty()){
                   JOptionPane.showMessageDialog(null, "Congrats! You won. Play again?");
+                  deckA.clear();
+                  deckB.clear();
+                  deckC.clear();
+                  deckD.clear();
+                  deckE.clear();
                   deckA.fill();
                   deckA.shuffle();
                }
                // all the cards go back into the stock pile
-               else{
-                  // empties out the pile back into the stock
-                  for (int i=deckB.size(); i>0; i--){
-                     Card card1 = dcB.getTopCard();
-                     card1.flip();
-                     dcB.removeTopCard();
-                     deckA.add(card1);
-                     
-                  }
-                  // empties out the pile back into the stock
-                  for (int i=deckC.size(); i>0; i--){
-                     Card card2 = dcC.getTopCard();
-                     card2.flip();
-                     dcC.removeTopCard();
-                     deckA.add(card2);
-                  }
-                  // empties out the pile back into the stock
-                  for (int i=deckD.size(); i>0; i--){
-                     Card card3 = dcD.getTopCard();
-                     card3.flip();
-                     dcD.removeTopCard();
-                     deckA.add(card3);
-                  }
-                  // empties out the pile back into the stock
-                  for (int i=deckE.size(); i>0; i--){
-                     Card card4 = dcE.getTopCard();
-                     card4.flip();
-                     dcE.removeTopCard();
-                     deckA.add(card4);
-                  }
-               }
             }
                
             if (newTop != null && !newTop.isFaceUp()) {
@@ -183,17 +157,6 @@ public class BoardDriver extends JPanel
                dcE.flipTopCard();
                
                // if all dealt cards have the same rank, remove those 4 from the board
-               
-               if (card1.getRank() == card2.getRank() && card2.getRank() == card3.getRank() && card3.getRank() == card4.getRank())
-               {
-                 dcB.removeTopCard();
-                 dcC.removeTopCard();
-                 dcD.removeTopCard();
-                 dcE.removeTopCard();
-                 score += 100;
-                 SC.setText("Score: " + score);
-                 JOptionPane.showMessageDialog(null, "All cards had the same rank and were automatically removed.");
-               }
                              
             }
          }
@@ -211,14 +174,22 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
+            if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+            }
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
             }
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
+            return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
       
@@ -226,14 +197,22 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
+            if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+            }
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
             }
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
+            return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
       
@@ -241,14 +220,22 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
+            if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+            }
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
             }
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
+            return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
       
@@ -256,14 +243,22 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
+            if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+            }
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
             }
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
+            return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
       
