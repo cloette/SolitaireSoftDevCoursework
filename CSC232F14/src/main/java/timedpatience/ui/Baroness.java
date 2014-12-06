@@ -9,8 +9,6 @@ package timedpatience.ui;
  */
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +20,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import timedpatience.model.Card;
 import timedpatience.model.Deck;
@@ -31,11 +28,16 @@ import timedpatience.model.Deck;
 
 public class Baroness extends JPanel 
 {
+   /**
+    * 
+    */
+   private static final long serialVersionUID = 1L;
+   
    //private static JTextField ORE;
    static int score = 0;
    static JLabel SC = new JLabel("Score: " + score);
    
-   public static void main(String[] args)
+   public static void main()
    { 
      // JTextField SC = null;
       JFrame frame = new JFrame("Baroness");
