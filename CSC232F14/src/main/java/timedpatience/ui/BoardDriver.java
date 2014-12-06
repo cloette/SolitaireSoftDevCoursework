@@ -1,7 +1,8 @@
 package timedpatience.ui;
 
 /**
- * Creates a game of Perpetual Motion. User wins when there are
+ * Creates a game of Perpetual Motion. The game consists of 4 piles and a stock pile
+ * It has a score feature and a redo/undo button. User the game wins the game when there are
  * no cards left in any of the piles.
  * 
  * @author Cloette Owensby, Connie Uribe, Bolun Zhang
@@ -29,10 +30,6 @@ import timedpatience.model.Deck;
 @SuppressWarnings("serial")
 public class BoardDriver extends JPanel 
 {
-
-   /**
-    * 
-    */
    
    //private static JTextField ORE;
    static int score = 0;
@@ -90,6 +87,7 @@ public class BoardDriver extends JPanel
       
       dcA.setDeckListener(new DeckListener()
       {
+         
          public void handleClick(DeckComponent deckComponent)
          {
             // When clicked, deal a card to deck B, C, D, and E.

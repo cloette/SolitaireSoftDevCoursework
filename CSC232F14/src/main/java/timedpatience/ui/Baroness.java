@@ -29,7 +29,13 @@ import timedpatience.model.Deck;
 public class Baroness extends JPanel 
 {
    /**
+    * Implements a Baroness Solitaire game consisting of 4 playing piles, a stock pile.
+    * The purpose of the game is to match a pair of cards that will add up to 13. This 
+    * The driver has a score feature, a undo/redo button
     * 
+    * @author Owensby
+    * @author Bolun
+    * @author Uribe
     */
    private static final long serialVersionUID = 1L;
    

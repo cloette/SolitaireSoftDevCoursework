@@ -19,7 +19,13 @@ import timedpatience.ui.Baroness;
 public class MenuDriver extends JPanel implements ActionListener
 {
    /**
+    * Initializes a window with 5 buttons that allows the user to select
+    * between 2 game drivers, view the rules of the games
+    * and choose between two different card designs.
     * 
+    * @author Owensby
+    * @author Bolun
+    * @author Uribe
     */
    
    private boolean cardType = false;
@@ -82,7 +88,7 @@ public class MenuDriver extends JPanel implements ActionListener
       add(radioPanel, BorderLayout.LINE_START);
       setBorder(BorderFactory.createEmptyBorder(20,20,20,20));  
   }
-   
+   //takes the action depending on the user's click
    public void actionPerformed(ActionEvent e) {
       
       String action = e.getActionCommand();
@@ -108,6 +114,8 @@ public class MenuDriver extends JPanel implements ActionListener
          Baroness.main();
          
       }
+      
+      //displays the rules
       else if (action.equals("View Rules.")) {
          System.out.println("Showing Rules.");
          JOptionPane.showMessageDialog(null, "Perpetual Motion \n"
@@ -120,7 +128,7 @@ public class MenuDriver extends JPanel implements ActionListener
                   + "\n The game is won when all the cards are discarded in fours. \n "
                   + "\n Baroness \n"
                   + "\n This solitaire game consists of five piles."
-                  + "\n Five cards are dealt at a time from the stock. "
+                  + "\n Four cards are dealt at a time from the stock. "
                   + "\n Only the top card of each pile is in play. "
                   + "\n The goal is to find pairs that total 13. Once the cards are paired up, they are discarded. "
                   + "\n The game is won when the entire stock is used up, and all the cards in play are used up. "

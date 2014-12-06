@@ -8,6 +8,13 @@ import javax.swing.JPanel;
 import timedpatience.model.Card;
 import timedpatience.model.Deck;
 
+/**
+ * Implements a simple demo consisting of 3 piles
+ * 
+ * @author Owensby
+ * @author Bolun
+ * @author Uribe
+ */
 public class GUIDemo
 {
    public static void main(String[] args)
