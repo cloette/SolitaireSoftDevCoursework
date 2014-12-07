@@ -15,11 +15,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import timedpatience.model.Card;
 import timedpatience.model.Deck;
@@ -55,6 +58,7 @@ public class Baroness extends JPanel
       frame.setLayout(new BorderLayout());
       JButton nU = new JButton("UNDO");
       JButton nR = new JButton("REDO");
+      final ArrayList<Integer> deckMark = new ArrayList<Integer>(); 
 
       sub.add(nU);
       sub.add(nR);
@@ -78,9 +82,7 @@ public class Baroness extends JPanel
       
       final Deck tempDeckA = new Deck();
       final Deck tempDeckB = new Deck();
-      final Deck tempDeckC = new Deck();
-      final Deck tempDeckD = new Deck();
-      final Deck tempDeckE = new Deck();
+
       
       // Loads the card images
       
@@ -191,14 +193,17 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(2);
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(2);
+               deckMark.add(2);
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -207,6 +212,10 @@ public class Baroness extends JPanel
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the pair of cards that adds up to 13
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -216,14 +225,17 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(3);
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(3);
+               deckMark.add(3);
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -232,6 +244,10 @@ public class Baroness extends JPanel
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the pair of cards that adds up to 13
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -241,14 +257,17 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(4);
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(4);
+               deckMark.add(4);
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -257,6 +276,10 @@ public class Baroness extends JPanel
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the pair of cards that adds up to 13
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -266,14 +289,17 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(5);
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               deckComponent.removeTopCard();
+               tempDeckA.add(deckComponent.removeTopCard());
+               tempDeckA.add(deckComponent.removeTopCard());
+               deckMark.add(5);
+               deckMark.add(5);
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -282,6 +308,10 @@ public class Baroness extends JPanel
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the pair of cards that adds up to 13
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -289,38 +319,68 @@ public class Baroness extends JPanel
       
       nU.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            deckA.clear();
-            deckB.clear();
-            deckC.clear();
-            deckD.clear();
-            deckE.clear();
-            
-            for (int i = 0; i < tempDeckA.size(); i++)
-            {
-               deckA.add(tempDeckA.getNum(i));
-            }
-            for (int i = 0; i < tempDeckB.size(); i++)
-            {
-               deckB.add(tempDeckB.getNum(i));
-            }
-            for (int i = 0; i < tempDeckC.size(); i++)
-            {
-               deckC.add(tempDeckC.getNum(i));
-            }
-            for (int i = 0; i < tempDeckD.size(); i++)
-            {
-               deckD.add(tempDeckD.getNum(i));
-            }
-            for (int i = 0; i < tempDeckE.size(); i++)
-            {
-               deckE.add(tempDeckE.getNum(i));
-            }
-            tempDeckA.clear();
-            tempDeckB.clear();
-            tempDeckC.clear();
-            tempDeckD.clear();
-            tempDeckE.clear();
-
+          if (tempDeckA.getTop().getRank().getValue() == 13)
+          {
+             if (deckMark.get(deckMark.size()-1) == 2)
+             {
+                dcB.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+             if (deckMark.get(deckMark.size()-1) == 3)
+             {
+                dcC.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+             if (deckMark.get(deckMark.size()-1) == 4)
+             {
+                dcD.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+             if (deckMark.get(deckMark.size()-1) == 5)
+             {
+                dcE.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+          }
+          else
+          {
+             if (deckMark.get(deckMark.size()-1) == 2)
+             {
+                dcB.addCard(tempDeckA.deal());
+                dcB.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+             if (deckMark.get(deckMark.size()-1) == 3)
+             {
+                dcC.addCard(tempDeckA.deal());
+                dcC.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+             if (deckMark.get(deckMark.size()-1) == 4)
+             {
+                dcD.addCard(tempDeckA.deal());
+                dcD.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+             if (deckMark.get(deckMark.size()-1) == 5)
+             {
+                dcE.addCard(tempDeckA.deal());
+                dcE.addCard(tempDeckA.deal());
+                deckMark.remove(deckMark.size()-1);
+                deckMark.remove(deckMark.size()-1);
+                return;
+             }
+          }
          }
       });
       
