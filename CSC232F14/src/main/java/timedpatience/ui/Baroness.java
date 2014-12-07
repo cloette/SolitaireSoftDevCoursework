@@ -31,7 +31,7 @@ public class Baroness extends JPanel
    /**
     * Implements a Baroness Solitaire game consisting of 4 playing piles, a stock pile.
     * The purpose of the game is to match a pair of cards that will add up to 13. This 
-    * The driver has a score feature, a undo/redo button
+    * The driver has a score feature, a undo/redo button.
     * 
     * @author Owensby
     * @author Bolun
@@ -97,33 +97,7 @@ public class Baroness extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            // When clicked, deal a card to deck B, C, D, and E.
-            
-            /*tempDeckA.clear();
-            tempDeckB.clear();
-            tempDeckC.clear();
-            tempDeckD.clear();
-            tempDeckE.clear();
-            for (int i = 0; i < deckA.size(); i++)
-               {
-               tempDeckA.add(deckA.getNum(i));
-               }
-            for (int i = 0; i < deckB.size(); i++)
-               {
-               tempDeckB.add(deckB.getNum(i));
-               }
-            for (int i = 0; i < deckC.size(); i++)
-               {
-               tempDeckC.add(deckC.getNum(i));
-               }
-            for (int i = 0; i < deckD.size(); i++)
-               {
-               tempDeckD.add(deckD.getNum(i));
-               }
-            for (int i = 0; i < deckE.size(); i++)
-               {
-               tempDeckE.add(deckE.getNum(i));
-               }*/
+         
             
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
@@ -139,41 +113,75 @@ public class Baroness extends JPanel
                   deckA.fill();
                   deckA.shuffle();
                }
-               // all the cards go back into the stock pile
-            }
-               
-            if (newTop != null && !newTop.isFaceUp()) {
-               //deckComponent.flipTopCard();
-            }
+                  // all the cards go back into the stock pile
+                  else{
+                     // empties out the pile back into the stock
+                     for (int i=deckB.size(); i>0; i--){
+                        Card card1 = dcB.getTopCard();
+                        card1.flip();
+                        dcB.removeTopCard();
+                        deckA.add(card1);
+                        
+                     }
+                     // empties out the pile back into the stock
+                     for (int i=deckC.size(); i>0; i--){
+                        Card card2 = dcC.getTopCard();
+                        card2.flip();
+                        dcC.removeTopCard();
+                        deckA.add(card2);
+                     }
+                     // empties out the pile back into the stock
+                     for (int i=deckD.size(); i>0; i--){
+                        Card card3 = dcD.getTopCard();
+                        card3.flip();
+                        dcD.removeTopCard();
+                        deckA.add(card3);
+                     }
+                     // empties out the pile back into the stock
+                     for (int i=deckE.size(); i>0; i--){
+                        Card card4 = dcE.getTopCard();
+                        card4.flip();
+                        dcE.removeTopCard();
+                        deckA.add(card4);
+                     }
+                  }
+               }
             
+               
             Card card1 = deckComponent.removeTopCard();
             Card card2 = deckComponent.removeTopCard();
             Card card3 = deckComponent.removeTopCard();
             Card card4 = deckComponent.removeTopCard();
             
             // as long as there are enough cards left to deal, deal them upon click
-            
-            if (card1 != null && card2 != null && card3 != null && card4 != null)
-            {
+           
+            if (card1 != null )
+               {
                dcB.addCard(card1);
                dcB.flipTopCard();
-               dcC.addCard(card2);
-               dcC.flipTopCard();
-               dcD.addCard(card3);
-               dcD.flipTopCard();
-               dcE.addCard(card4);
-               dcE.flipTopCard();
-               
-               // if all dealt cards have the same rank, remove those 4 from the board
-                             
-            }
-         }
+                  if (card2 != null )
+                  {
+                     dcC.addCard(card2);
+                     dcC.flipTopCard();  
+                     if ( card3 != null)
+                     {
+                        dcD.addCard(card3);
+                        dcD.flipTopCard();
+                        if(card4 != null)
+                        {
+                           dcE.addCard(card4);
+                           dcE.flipTopCard();
+                        }
+                     }
+                  }
+                }
+ }
          
          // Dragging the card
          
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
-            // Only allow drops of the same rank as the top card
+            // Not allowed to drop a card to the stock pile
             return false;
          }
       });
@@ -182,21 +190,23 @@ public class Baroness extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+               return;
+            }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
+               return;
             }
-            if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               score += 100;
-               SC.setText("Score: " + score);
-            }
-         }
+        }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
-            // Only allow drops of the same rank as the top card
+            // Only allow drops of the pair of cards that adds up to 13
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -205,21 +215,23 @@ public class Baroness extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+               return;
+            }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
+               return;
             }
-            if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               score += 100;
-               SC.setText("Score: " + score);
-            }
-         }
+        }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
-            // Only allow drops of the same rank as the top card
+            // Only allow drops of the pair of cards that adds up to 13
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -228,21 +240,23 @@ public class Baroness extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+               return;
+            }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
+               return;
             }
-            if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               score += 100;
-               SC.setText("Score: " + score);
-            }
-         }
+        }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
-            // Only allow drops of the same rank as the top card
+            // Only allow drops of the pair of cards that adds up to 13
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
@@ -251,21 +265,23 @@ public class Baroness extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
+            if (deckComponent.getTopCard().getRank().getValue() == 13){
+               deckComponent.removeTopCard();
+               score += 100;
+               SC.setText("Score: " + score);
+               return;
+            }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
+               return;
             }
-            if (deckComponent.getTopCard().getRank().getValue() == 13){
-               deckComponent.removeTopCard();
-               score += 100;
-               SC.setText("Score: " + score);
-            }
-         }
+        }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
-            // Only allow drops of the same rank as the top card
+            // Only allow drops of the pair of cards that adds up to 13
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
