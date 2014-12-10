@@ -116,16 +116,25 @@ public class MenuDriver extends JPanel implements ActionListener
       //For the radio buttons
       if (action.equals(egyptianString)){
          System.out.println("The card type has been changed to Egyptian.");
+         JOptionPane.showMessageDialog(null, "Mamluk Egyptian cards by V.H. Smith. Distributed as freeware. \n"
+                  + "\n"
+                  + "Diamonds  = Coins \n"
+                  + "Clubs          = Polo Sticks \n"
+                  + "Hearts        = Cups \n"
+                  + "Spades      = Scimitar (Curved sword) \n");
          getType = 1;
       }
       
       else if (action.equals(pySolString)){
          System.out.println("The card type has been changed to PySol.");
+         JOptionPane.showMessageDialog(null, "PySol cards: Original Deck © 1998 Niccolo Rigacci modified by © 1999 T. Kirk <grania@inetarena.com>. Released as free software.");
          getType = 2;
       }
       
       else if (action.equals(cardMageString)){
          System.out.println("The card type has been changed to Card Mage.");
+         JOptionPane.showMessageDialog(null, "CardMage cards: Original deck, © Oxymoron modified by © Katzmiff 2002 \n"
+                  + "Released under GLP license.");
          getType = 3;
       }
       
