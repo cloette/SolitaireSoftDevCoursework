@@ -33,12 +33,57 @@ public class BoardDriver extends JPanel
    
    //private static JTextField ORE;
    static int score = 0;
-   static int cardType;
    static JLabel SC = new JLabel("Score: " + score);
    
-   public static void main(int type)
+   final static Deck deckA = new Deck();
+   final static Deck deckB = new Deck();
+   final static Deck deckC = new Deck();
+   final static Deck deckD = new Deck();
+   final static Deck deckE = new Deck();
+
+   
+   final static Deck tempDeckA = new Deck();
+   final static Deck tempDeckB = new Deck();
+   final static Deck tempDeckC = new Deck();
+   final static Deck tempDeckD = new Deck();
+   final static Deck tempDeckE = new Deck();
+   final static Deck TDA = new Deck();
+   final static Deck TDB = new Deck();
+   final static Deck TDC = new Deck();
+   final static Deck TDD = new Deck();
+   final static Deck TDE = new Deck();
+   
+   public static void saveForU()
+   {
+      tempDeckA.clear();
+      tempDeckB.clear();
+      tempDeckC.clear();
+      tempDeckD.clear();
+      tempDeckE.clear();
+      for (int i = 0; i < deckA.size(); i++)
+         {
+         tempDeckA.add(deckA.getNum(i));
+         }
+      for (int i = 0; i < deckB.size(); i++)
+         {
+         tempDeckB.add(deckB.getNum(i));
+         }
+      for (int i = 0; i < deckC.size(); i++)
+         {
+         tempDeckC.add(deckC.getNum(i));
+         }
+      for (int i = 0; i < deckD.size(); i++)
+         {
+         tempDeckD.add(deckD.getNum(i));
+         }
+      for (int i = 0; i < deckE.size(); i++)
+         {
+         tempDeckE.add(deckE.getNum(i));
+         }
+   }
+   
+   public static void main()
    { 
-      cardType = type;
      // JTextField SC = null;
       JFrame frame = new JFrame("BoardDriver");
       JPanel sub = new JPanel();
@@ -47,11 +92,11 @@ public class BoardDriver extends JPanel
       frame.setSize(600, 400);
       
       frame.setLayout(new BorderLayout());
-      JButton nU = new JButton("UNDO");
-      JButton nR = new JButton("REDO");
+      JButton undo = new JButton("UNDO");
+      JButton redo = new JButton("REDO");
 
-      sub.add(nU);
-      sub.add(nR);
+      sub.add(undo);
+      sub.add(redo);
       subb.add(SC);
       
      
@@ -59,33 +104,22 @@ public class BoardDriver extends JPanel
       frame.getContentPane().add(subb, BorderLayout.NORTH);
 
       
-      final Deck deckA = new Deck();
       deckA.fill();
       deckA.shuffle();
       
       // Creates the other four piles
       
-      final Deck deckB = new Deck();
-      final Deck deckC = new Deck();
-      final Deck deckD = new Deck();
-      final Deck deckE = new Deck();
-      
-      final Deck tempDeckA = new Deck();
-      final Deck tempDeckB = new Deck();
-      final Deck tempDeckC = new Deck();
-      final Deck tempDeckD = new Deck();
-      final Deck tempDeckE = new Deck();
       
       // Loads the card images
       
       File imageDirectory = new File("src/main/Resources/Cards");
       CardImages images = new CardImages(imageDirectory);
       
-      final DeckComponent dcA = new DeckComponent(deckA, images, cardType);
-      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL, cardType);
-      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL, cardType);
-      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL, cardType);
-      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcA = new DeckComponent(deckA, images);
+      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL);
       
       dcA.setDeckListener(new DeckListener()
       {
@@ -94,31 +128,7 @@ public class BoardDriver extends JPanel
          {
             // When clicked, deal a card to deck B, C, D, and E.
             
-            tempDeckA.clear();
-            tempDeckB.clear();
-            tempDeckC.clear();
-            tempDeckD.clear();
-            tempDeckE.clear();
-            for (int i = 0; i < deckA.size(); i++)
-               {
-               tempDeckA.add(deckA.getNum(i));
-               }
-            for (int i = 0; i < deckB.size(); i++)
-               {
-               tempDeckB.add(deckB.getNum(i));
-               }
-            for (int i = 0; i < deckC.size(); i++)
-               {
-               tempDeckC.add(deckC.getNum(i));
-               }
-            for (int i = 0; i < deckD.size(); i++)
-               {
-               tempDeckD.add(deckD.getNum(i));
-               }
-            for (int i = 0; i < deckE.size(); i++)
-               {
-               tempDeckE.add(deckE.getNum(i));
-               }
+            saveForU();
             
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
@@ -214,13 +224,19 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
-            }
+            
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
+            {
+               saveForU();
+            }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
          }
       });
@@ -229,13 +245,19 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
-            }
+            
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
+            {
+               saveForU();
+            }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
          }
       });
@@ -244,13 +266,19 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
-            }
+            
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
+            {
+               saveForU();
+            }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
          }
       });
@@ -259,59 +287,230 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            if (deckComponent.getTopCard().getRank() == deckComponent.getPrevCard().getRank()){
-               return;
-            }
+            
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
             // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
+            {
+               saveForU();
+            }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
          }
       });
       
       
-      nU.addActionListener(new ActionListener() {
+      undo.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
+            if (tempDeckA.size()==deckA.size() && tempDeckB.size()==deckB.size() && tempDeckC.size()==deckC.size() && tempDeckD.size()==deckD.size() && tempDeckE.size()==deckE.size())
+            {
+               JOptionPane.showMessageDialog(null, "Only one Undo can be made between steps!");
+               return;
+            }
+            if(tempDeckA.isEmpty() && tempDeckB.isEmpty() && tempDeckC.isEmpty() && tempDeckD.isEmpty() && tempDeckE.isEmpty())
+            {
+               JOptionPane.showMessageDialog(null, "Can't Undo before any move!");
+               return;
+            }
+            else
+            {
+            TDA.clear();
+            TDB.clear();
+            TDC.clear();
+            TDD.clear();
+            TDE.clear();
+            
+            for (int i = 0; i < deckA.size(); i++)
+            {
+            TDA.add(deckA.getNum(i));
+            }
+         for (int i = 0; i < deckB.size(); i++)
+            {
+            TDB.add(deckB.getNum(i));
+            }
+         for (int i = 0; i < deckC.size(); i++)
+            {
+            TDC.add(deckC.getNum(i));
+            }
+         for (int i = 0; i < deckD.size(); i++)
+            {
+            TDD.add(deckD.getNum(i));
+            }
+         for (int i = 0; i < deckE.size(); i++)
+            {
+            TDE.add(deckE.getNum(i));
+            }
+            
             deckA.clear();
             deckB.clear();
             deckC.clear();
             deckD.clear();
             deckE.clear();
             
+            if (tempDeckA.size() == 0)
+            {
+               dcA.addCard(null);
+               deckA.clear();
+            }
+            if (tempDeckB.size() == 0)
+            {
+               dcB.addCard(null);
+               deckB.clear();
+            }
+            if (tempDeckC.size() == 0)
+            {
+               dcC.addCard(null);
+               deckC.clear();
+            }
+            if (tempDeckD.size() == 0)
+            {
+               dcD.addCard(null);
+               deckD.clear();
+            }
+            if (tempDeckE.size() == 0)
+            {
+               dcE.addCard(null);
+               deckE.clear();
+            }
             for (int i = 0; i < tempDeckA.size(); i++)
             {
-               deckA.add(tempDeckA.getNum(i));
+               if (tempDeckA.getNum(i).isFaceUp())
+               {
+                  tempDeckA.getNum(i).flip();
+               }
+               dcA.addCard(tempDeckA.getNum(i));
             }
             for (int i = 0; i < tempDeckB.size(); i++)
             {
-               deckB.add(tempDeckB.getNum(i));
+               if (!tempDeckB.getNum(i).isFaceUp())
+               {
+                  tempDeckB.getNum(i).flip();
+               }
+               dcB.addCard(tempDeckB.getNum(i));
             }
             for (int i = 0; i < tempDeckC.size(); i++)
             {
-               deckC.add(tempDeckC.getNum(i));
+               if (!tempDeckC.getNum(i).isFaceUp())
+               {
+                  tempDeckC.getNum(i).flip();
+               }
+               dcC.addCard(tempDeckC.getNum(i));
             }
             for (int i = 0; i < tempDeckD.size(); i++)
             {
-               deckD.add(tempDeckD.getNum(i));
+               if (!tempDeckD.getNum(i).isFaceUp())
+               {
+                  tempDeckD.getNum(i).flip();
+               }
+               dcD.addCard(tempDeckD.getNum(i));
             }
             for (int i = 0; i < tempDeckE.size(); i++)
             {
-               deckE.add(tempDeckE.getNum(i));
+               if (!tempDeckE.getNum(i).isFaceUp())
+               {
+                  tempDeckE.getNum(i).flip();
+               }
+               dcE.addCard(tempDeckE.getNum(i));
             }
-            tempDeckA.clear();
-            tempDeckB.clear();
-            tempDeckC.clear();
-            tempDeckD.clear();
-            tempDeckE.clear();
-
+            return;
+            }
          }
       });
       
-      nR.addActionListener(new ActionListener() {
+      redo.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            System.out.println(2);
-
+            if (TDA.size()==deckA.size() && TDB.size()==deckB.size() && TDC.size()==deckC.size() && TDD.size()==deckD.size() && TDE.size()==deckE.size())
+            {
+               JOptionPane.showMessageDialog(null, "Only one Redo can be made between steps!");
+               return;
+            }
+            else
+            {
+               if (TDA.size() == 0 && TDB.size() == 0 && TDC.size() == 0 && TDD.size() == 0 && TDE.size() == 0)
+               {
+                  JOptionPane.showMessageDialog(null, "Can't Redo before Undo!");
+               }
+               else
+               {
+                  deckA.clear();
+                  deckB.clear();
+                  deckC.clear();
+                  deckD.clear();
+                  deckE.clear();
+                  
+                  if (TDA.size() == 0)
+                  {
+                     dcA.addCard(null);
+                     deckA.clear();
+                  }
+                  if (TDB.size() == 0)
+                  {
+                     dcB.addCard(null);
+                     deckB.clear();
+                  }
+                  if (TDC.size() == 0)
+                  {
+                     dcC.addCard(null);
+                     deckC.clear();
+                  }
+                  if (TDD.size() == 0)
+                  {
+                     dcD.addCard(null);
+                     deckD.clear();
+                  }
+                  if (TDE.size() == 0)
+                  {
+                     dcE.addCard(null);
+                     deckE.clear();
+                  }
+                  for (int i = 0; i < TDA.size(); i++)
+                  {
+                     if (TDA.getNum(i).isFaceUp())
+                     {
+                        TDA.getNum(i).flip();
+                     }
+                     dcA.addCard(TDA.getNum(i));
+                  }
+                  for (int i = 0; i < TDB.size(); i++)
+                  {
+                     if (!TDB.getNum(i).isFaceUp())
+                     {
+                        TDB.getNum(i).flip();
+                     }
+                     dcB.addCard(TDB.getNum(i));
+                  }
+                  for (int i = 0; i < TDC.size(); i++)
+                  {
+                     if (!TDC.getNum(i).isFaceUp())
+                     {
+                        TDC.getNum(i).flip();
+                     }
+                     dcC.addCard(TDC.getNum(i));
+                  }
+                  for (int i = 0; i < TDD.size(); i++)
+                  {
+                     if (!TDD.getNum(i).isFaceUp())
+                     {
+                        TDD.getNum(i).flip();
+                     }
+                     dcD.addCard(TDD.getNum(i));
+                  }
+                  for (int i = 0; i < TDE.size(); i++)
+                  {
+                     if (!TDE.getNum(i).isFaceUp())
+                     {
+                        TDE.getNum(i).flip();
+                     }
+                     dcE.addCard(TDE.getNum(i));
+                  }
+                  return;
+               }
+            }
          }
       });
       

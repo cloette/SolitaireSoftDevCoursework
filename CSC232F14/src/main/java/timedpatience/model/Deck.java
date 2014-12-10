@@ -30,7 +30,7 @@ public class Deck implements Iterable<Card>
       {
          for (Rank rank : Rank.values())
          {
-            add(new Card(rank, suit));
+            add(new Card(rank, suit, false));
          }
       }
    }

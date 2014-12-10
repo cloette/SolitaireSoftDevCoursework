@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import timedpatience.model.Card;
 
-
 /**
  * Manage a set of playing card images loaded from a directory of image files.
  * 
@@ -73,47 +72,21 @@ public class CardImages
     *           the desired playing card, or null
     * @return the appropriate Image
     */
-   public Image getImage(Card card, int type)
+   public Image getImage(Card card)
    {
-      cardType = type;
-      
       if (card == null)
       {
          return images.get("blank");
       }
       else if (card.isFaceUp())
       {
-         if (cardType == 1){
-            return images.get("e" + card.getAbbrev()).getScaledInstance( 72, 96, Image.SCALE_DEFAULT);
-         }
-         else if (cardType == 2){
-            return images.get("p" + card.getAbbrev()).getScaledInstance( 72, 96, Image.SCALE_DEFAULT);
-         } 
-         else if (cardType == 3){
-            return images.get("c" + card.getAbbrev()).getScaledInstance( 72, 96, Image.SCALE_DEFAULT);
-         }
-         else {
-            return images.get(card.getAbbrev());
-         }
+         return images.get(card.getAbbrev());
       }
       else
       {
-         if (cardType == 1){
-            return (images.get("eback").getScaledInstance( 72, 96, Image.SCALE_DEFAULT));
-         }
-         else if (cardType == 2){
-            return (images.get("pback").getScaledInstance( 72, 96, Image.SCALE_DEFAULT));
-         } 
-         else if (cardType == 3){
-            return (images.get("cback").getScaledInstance( 72, 96, Image.SCALE_DEFAULT));
-         }
-         else {
-            return images.get("back");
-         }
-         
+         return images.get("back");
       }
    }
 
    private Map<String, Image> images = new HashMap<String, Image>();
-   private int cardType;
 }

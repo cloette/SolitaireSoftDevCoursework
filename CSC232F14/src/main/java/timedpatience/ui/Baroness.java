@@ -15,14 +15,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import java.io.File;
-import java.util.ArrayList;
+
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import timedpatience.model.Card;
 import timedpatience.model.Deck;
@@ -34,7 +33,7 @@ public class Baroness extends JPanel
    /**
     * Implements a Baroness Solitaire game consisting of 4 playing piles, a stock pile.
     * The purpose of the game is to match a pair of cards that will add up to 13. This 
-    * The driver has a score feature, a undo/redo button.
+    * The driver has a score feature, a nU/redo button.
     * 
     * @author Owensby
     * @author Bolun
@@ -44,10 +43,56 @@ public class Baroness extends JPanel
    
    //private static JTextField ORE;
    static int score = 0;
-   int cardType;
    static JLabel SC = new JLabel("Score: " + score);
    
-   public static void main(int cardType)
+   final static Deck deckA = new Deck();
+   final static Deck deckB = new Deck();
+   final static Deck deckC = new Deck();
+   final static Deck deckD = new Deck();
+   final static Deck deckE = new Deck();
+
+   
+   final static Deck tempDeckA = new Deck();
+   final static Deck tempDeckB = new Deck();
+   final static Deck tempDeckC = new Deck();
+   final static Deck tempDeckD = new Deck();
+   final static Deck tempDeckE = new Deck();
+   final static Deck TDA = new Deck();
+   final static Deck TDB = new Deck();
+   final static Deck TDC = new Deck();
+   final static Deck TDD = new Deck();
+   final static Deck TDE = new Deck();
+   
+   public static void saveForU()
+   {
+      tempDeckA.clear();
+      tempDeckB.clear();
+      tempDeckC.clear();
+      tempDeckD.clear();
+      tempDeckE.clear();
+      for (int i = 0; i < deckA.size(); i++)
+         {
+         tempDeckA.add(deckA.getNum(i));
+         }
+      for (int i = 0; i < deckB.size(); i++)
+         {
+         tempDeckB.add(deckB.getNum(i));
+         }
+      for (int i = 0; i < deckC.size(); i++)
+         {
+         tempDeckC.add(deckC.getNum(i));
+         }
+      for (int i = 0; i < deckD.size(); i++)
+         {
+         tempDeckD.add(deckD.getNum(i));
+         }
+      for (int i = 0; i < deckE.size(); i++)
+         {
+         tempDeckE.add(deckE.getNum(i));
+         }
+   }
+   
+   public static void main()
    { 
      // JTextField SC = null;
       JFrame frame = new JFrame("Baroness");
@@ -57,12 +102,11 @@ public class Baroness extends JPanel
       frame.setSize(600, 400);
       
       frame.setLayout(new BorderLayout());
-      JButton nU = new JButton("UNDO");
-      JButton nR = new JButton("REDO");
-      final ArrayList<Integer> deckMark = new ArrayList<Integer>(); 
+      JButton undo = new JButton("UNDO");
+      JButton redo = new JButton("REDO");
 
-      sub.add(nU);
-      sub.add(nR);
+      sub.add(undo);
+      sub.add(redo);
       subb.add(SC);
       
      
@@ -70,19 +114,13 @@ public class Baroness extends JPanel
       frame.getContentPane().add(subb, BorderLayout.NORTH);
 
       
-      final Deck deckA = new Deck();
       deckA.fill();
       deckA.shuffle();
       
       // Creates the other four piles
       
-      final Deck deckB = new Deck();
-      final Deck deckC = new Deck();
-      final Deck deckD = new Deck();
-      final Deck deckE = new Deck();
       
-      final Deck tempDeckA = new Deck();
-      final Deck tempDeckB = new Deck();
+
 
       
       // Loads the card images
@@ -90,22 +128,24 @@ public class Baroness extends JPanel
       File imageDirectory = new File("src/main/Resources/Cards");
       CardImages images = new CardImages(imageDirectory);
       
-      final DeckComponent dcA = new DeckComponent(deckA, images, cardType);
-      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL, cardType);
-      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL, cardType);
-      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL, cardType);
-      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcA = new DeckComponent(deckA, images);
+      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL);
+      
       
       dcA.setDeckListener(new DeckListener()
       {
          public void handleClick(DeckComponent deckComponent)
          {
+            saveForU();
             
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
             if (newTop == null){
                // If all piles are empty, the user has won. Print a winner message.
-               if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty()){
+               if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty() && deckE.isEmpty()){
                   JOptionPane.showMessageDialog(null, "Congrats! You won. Play again?");
                   deckA.clear();
                   deckB.clear();
@@ -193,17 +233,16 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(2);
+               saveForU();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(2);
-               deckMark.add(2);
+               saveForU();
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -215,6 +254,10 @@ public class Baroness extends JPanel
             if (deckComponent.getTopCard() == null)
             {
                return false;
+            }
+            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
+            {
+               saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
@@ -225,17 +268,16 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(3);
+               saveForU();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(3);
-               deckMark.add(3);
+               saveForU();
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -247,6 +289,10 @@ public class Baroness extends JPanel
             if (deckComponent.getTopCard() == null)
             {
                return false;
+            }
+            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
+            {
+               saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
@@ -257,17 +303,16 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(4);
+               saveForU();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(4);
-               deckMark.add(4);
+               saveForU();
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -279,6 +324,10 @@ public class Baroness extends JPanel
             if (deckComponent.getTopCard() == null)
             {
                return false;
+            }
+            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
+            {
+               saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
@@ -289,17 +338,16 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(5);
+               saveForU();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               tempDeckA.add(deckComponent.removeTopCard());
-               tempDeckA.add(deckComponent.removeTopCard());
-               deckMark.add(5);
-               deckMark.add(5);
+               saveForU();
+               deckComponent.removeTopCard();
+               deckComponent.removeTopCard();
                score += 100;
                SC.setText("Score: " + score);
                return;
@@ -312,82 +360,221 @@ public class Baroness extends JPanel
             {
                return false;
             }
+            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
+            {
+               saveForU();
+            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
       });
       
       
-      nU.addActionListener(new ActionListener() {
+      undo.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-          if (tempDeckA.getTop().getRank().getValue() == 13)
-          {
-             if (deckMark.get(deckMark.size()-1) == 2)
-             {
-                dcB.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-             if (deckMark.get(deckMark.size()-1) == 3)
-             {
-                dcC.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-             if (deckMark.get(deckMark.size()-1) == 4)
-             {
-                dcD.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-             if (deckMark.get(deckMark.size()-1) == 5)
-             {
-                dcE.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-          }
-          else
-          {
-             if (deckMark.get(deckMark.size()-1) == 2)
-             {
-                dcB.addCard(tempDeckA.deal());
-                dcB.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-             if (deckMark.get(deckMark.size()-1) == 3)
-             {
-                dcC.addCard(tempDeckA.deal());
-                dcC.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-             if (deckMark.get(deckMark.size()-1) == 4)
-             {
-                dcD.addCard(tempDeckA.deal());
-                dcD.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-             if (deckMark.get(deckMark.size()-1) == 5)
-             {
-                dcE.addCard(tempDeckA.deal());
-                dcE.addCard(tempDeckA.deal());
-                deckMark.remove(deckMark.size()-1);
-                deckMark.remove(deckMark.size()-1);
-                return;
-             }
-          }
+            if (tempDeckA.size()==deckA.size() && tempDeckB.size()==deckB.size() && tempDeckC.size()==deckC.size() && tempDeckD.size()==deckD.size() && tempDeckE.size()==deckE.size())
+            {
+               JOptionPane.showMessageDialog(null, "Only one Undo can be made between steps!");
+               return;
+            }
+            if(tempDeckA.isEmpty() && tempDeckB.isEmpty() && tempDeckC.isEmpty() && tempDeckD.isEmpty() && tempDeckE.isEmpty())
+            {
+               JOptionPane.showMessageDialog(null, "Can't Undo before any move!");
+               return;
+            }
+            else
+            {
+            TDA.clear();
+            TDB.clear();
+            TDC.clear();
+            TDD.clear();
+            TDE.clear();
+            
+            for (int i = 0; i < deckA.size(); i++)
+            {
+            TDA.add(deckA.getNum(i));
+            }
+         for (int i = 0; i < deckB.size(); i++)
+            {
+            TDB.add(deckB.getNum(i));
+            }
+         for (int i = 0; i < deckC.size(); i++)
+            {
+            TDC.add(deckC.getNum(i));
+            }
+         for (int i = 0; i < deckD.size(); i++)
+            {
+            TDD.add(deckD.getNum(i));
+            }
+         for (int i = 0; i < deckE.size(); i++)
+            {
+            TDE.add(deckE.getNum(i));
+            }
+            
+            deckA.clear();
+            deckB.clear();
+            deckC.clear();
+            deckD.clear();
+            deckE.clear();
+            
+            if (tempDeckA.size() == 0)
+            {
+               dcA.addCard(null);
+               deckA.clear();
+            }
+            if (tempDeckB.size() == 0)
+            {
+               dcB.addCard(null);
+               deckB.clear();
+            }
+            if (tempDeckC.size() == 0)
+            {
+               dcC.addCard(null);
+               deckC.clear();
+            }
+            if (tempDeckD.size() == 0)
+            {
+               dcD.addCard(null);
+               deckD.clear();
+            }
+            if (tempDeckE.size() == 0)
+            {
+               dcE.addCard(null);
+               deckE.clear();
+            }
+            for (int i = 0; i < tempDeckA.size(); i++)
+            {
+               if (tempDeckA.getNum(i).isFaceUp())
+               {
+                  tempDeckA.getNum(i).flip();
+               }
+               dcA.addCard(tempDeckA.getNum(i));
+            }
+            for (int i = 0; i < tempDeckB.size(); i++)
+            {
+               if (!tempDeckB.getNum(i).isFaceUp())
+               {
+                  tempDeckB.getNum(i).flip();
+               }
+               dcB.addCard(tempDeckB.getNum(i));
+            }
+            for (int i = 0; i < tempDeckC.size(); i++)
+            {
+               if (!tempDeckC.getNum(i).isFaceUp())
+               {
+                  tempDeckC.getNum(i).flip();
+               }
+               dcC.addCard(tempDeckC.getNum(i));
+            }
+            for (int i = 0; i < tempDeckD.size(); i++)
+            {
+               if (!tempDeckD.getNum(i).isFaceUp())
+               {
+                  tempDeckD.getNum(i).flip();
+               }
+               dcD.addCard(tempDeckD.getNum(i));
+            }
+            for (int i = 0; i < tempDeckE.size(); i++)
+            {
+               if (!tempDeckE.getNum(i).isFaceUp())
+               {
+                  tempDeckE.getNum(i).flip();
+               }
+               dcE.addCard(tempDeckE.getNum(i));
+            }
+            return;
+            }
          }
       });
       
-      nR.addActionListener(new ActionListener() {
+      redo.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
-            System.out.println(2);
-
+            if (TDA.size()==deckA.size() && TDB.size()==deckB.size() && TDC.size()==deckC.size() && TDD.size()==deckD.size() && TDE.size()==deckE.size())
+            {
+               JOptionPane.showMessageDialog(null, "Only one Redo can be made between steps!");
+               return;
+            }
+            else
+            {
+               if (TDA.size() == 0 && TDB.size() == 0 && TDC.size() == 0 && TDD.size() == 0 && TDE.size() == 0)
+               {
+                  JOptionPane.showMessageDialog(null, "Can't Redo before nU!");
+               }
+               else
+               {
+                  deckA.clear();
+                  deckB.clear();
+                  deckC.clear();
+                  deckD.clear();
+                  deckE.clear();
+                  
+                  if (TDA.size() == 0)
+                  {
+                     dcA.addCard(null);
+                     deckA.clear();
+                  }
+                  if (TDB.size() == 0)
+                  {
+                     dcB.addCard(null);
+                     deckB.clear();
+                  }
+                  if (TDC.size() == 0)
+                  {
+                     dcC.addCard(null);
+                     deckC.clear();
+                  }
+                  if (TDD.size() == 0)
+                  {
+                     dcD.addCard(null);
+                     deckD.clear();
+                  }
+                  if (TDE.size() == 0)
+                  {
+                     dcE.addCard(null);
+                     deckE.clear();
+                  }
+                  for (int i = 0; i < TDA.size(); i++)
+                  {
+                     if (TDA.getNum(i).isFaceUp())
+                     {
+                        TDA.getNum(i).flip();
+                     }
+                     dcA.addCard(TDA.getNum(i));
+                  }
+                  for (int i = 0; i < TDB.size(); i++)
+                  {
+                     if (!TDB.getNum(i).isFaceUp())
+                     {
+                        TDB.getNum(i).flip();
+                     }
+                     dcB.addCard(TDB.getNum(i));
+                  }
+                  for (int i = 0; i < TDC.size(); i++)
+                  {
+                     if (!TDC.getNum(i).isFaceUp())
+                     {
+                        TDC.getNum(i).flip();
+                     }
+                     dcC.addCard(TDC.getNum(i));
+                  }
+                  for (int i = 0; i < TDD.size(); i++)
+                  {
+                     if (!TDD.getNum(i).isFaceUp())
+                     {
+                        TDD.getNum(i).flip();
+                     }
+                     dcD.addCard(TDD.getNum(i));
+                  }
+                  for (int i = 0; i < TDE.size(); i++)
+                  {
+                     if (!TDE.getNum(i).isFaceUp())
+                     {
+                        TDE.getNum(i).flip();
+                     }
+                     dcE.addCard(TDE.getNum(i));
+                  }
+                  return;
+               }
+            }
          }
       });
       
@@ -412,4 +599,5 @@ public class Baroness extends JPanel
       frame.add(panel, BorderLayout.CENTER);
       frame.setVisible(true);
    }
+
 }

@@ -38,9 +38,9 @@ public class DeckComponent extends JComponent
     * @param deck
     * @param images
     */
-   public DeckComponent(Deck deck, CardImages images, int type)
+   public DeckComponent(Deck deck, CardImages images)
    {
-      this(deck, images, FAN_NONE, type);
+      this(deck, images, FAN_NONE);
    }
 
    /**
@@ -52,14 +52,13 @@ public class DeckComponent extends JComponent
     * @param fanDirection
     *           one of FAN_HORIZONTAL, FAN_VERTICAL, or FAN_NONE
     */
-   public DeckComponent(Deck deck, CardImages images, int fanDirection, int type)
+   public DeckComponent(Deck deck, CardImages images, int fanDirection)
    {
       this.deck = deck;
       this.images = images;
       this.fanDirection = fanDirection;
-      this.cardType = type;
 
-      Image blank = images.getImage(null, cardType);
+      Image blank = images.getImage(null);
       int width = blank.getWidth(null);
       int height = blank.getHeight(null);
       if ((fanDirection & FAN_HORIZONTAL) != 0)
@@ -176,7 +175,7 @@ public class DeckComponent extends JComponent
    protected Image getTopCardImage()
    {
       Card top = getTopCard();
-      return images.getImage(top, cardType);
+      return images.getImage(top);
    }
 
    protected void initTransferHandler()
@@ -317,7 +316,7 @@ public class DeckComponent extends JComponent
 
       if (fanDirection != 0)
       {
-         Image blank = images.getImage(null, cardType);
+         Image blank = images.getImage(null);
          g.drawImage(blank, 0, 0, null);
 
          int x = 0, y = 0;
@@ -342,7 +341,7 @@ public class DeckComponent extends JComponent
          }
          for (Card c : deck)
          {
-            g.drawImage(images.getImage(c, cardType), x, y, null);
+            g.drawImage(images.getImage(c), x, y, null);
             x += dx;
             y += dy;
          }
@@ -356,7 +355,6 @@ public class DeckComponent extends JComponent
    private Deck deck;
    private CardImages images;
    private int fanDirection;
-   private int cardType;
    private boolean draggable;
 
    private DeckListener listener;
