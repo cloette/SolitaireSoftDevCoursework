@@ -12,7 +12,9 @@ import javax.swing.*;
 import java.awt.Container;
 import java.awt.Insets;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
+
 import timedpatience.ui.BoardDriver;
 import timedpatience.ui.Baroness;
 
@@ -28,11 +30,12 @@ public class MenuDriver extends JPanel implements ActionListener
     * @author Uribe
     */
    
-   private boolean cardType = false;
-   
    private static final long serialVersionUID = 1L;
    static String defaultString = "Use Default Card Deck";
    static String egyptianString = "Use Egyptian Card Deck";
+   static String cardMageString = "Use Card Mage Deck";
+   static String pySolString = "Use PySol Deck";
+   int getType = 0;
    
    public MenuDriver(Container pane) {
       
@@ -66,15 +69,27 @@ public class MenuDriver extends JPanel implements ActionListener
       JRadioButton egyptianButton = new JRadioButton(egyptianString);
       egyptianButton.setMnemonic(KeyEvent.VK_C);
       egyptianButton.setActionCommand(egyptianString);
+      
+      JRadioButton cardMageButton = new JRadioButton(cardMageString);
+      cardMageButton.setMnemonic(KeyEvent.VK_B);
+      cardMageButton.setActionCommand(cardMageString);
+
+      JRadioButton pySolButton = new JRadioButton(pySolString);
+      pySolButton.setMnemonic(KeyEvent.VK_C);
+      pySolButton.setActionCommand(pySolString);
 
       //Group the radio buttons.
       ButtonGroup group = new ButtonGroup();
       group.add(defaultButton);
       group.add(egyptianButton);
+      group.add(cardMageButton);
+      group.add(pySolButton);
       
       //Register a listener for the radio buttons.
       defaultButton.addActionListener(this);
       egyptianButton.addActionListener(this);
+      cardMageButton.addActionListener(this);
+      pySolButton.addActionListener(this);
 
       //Put the radio buttons in a column in a panel.
       JPanel radioPanel = new JPanel(new GridLayout(1, 2));
@@ -83,36 +98,51 @@ public class MenuDriver extends JPanel implements ActionListener
       radioPanel.add(b3);
       radioPanel.add(defaultButton);
       radioPanel.add(egyptianButton);
+      radioPanel.add(cardMageButton);
+      radioPanel.add(pySolButton);
 
 
       add(radioPanel, BorderLayout.LINE_START);
       setBorder(BorderFactory.createEmptyBorder(20,20,20,20));  
   }
-   //takes the action depending on the user's click
+   
+   
+
+// For the push down buttons
    public void actionPerformed(ActionEvent e) {
       
       String action = e.getActionCommand();
       
-      // For the radio options
-      if (cardType == false && action.equals(egyptianString)){
+      //For the radio buttons
+      if (action.equals(egyptianString)){
          System.out.println("The card type has been changed to Egyptian.");
-         cardType = true;
+         getType = 1;
       }
       
-      else if (action.equals(defaultString)) {
+      else if (action.equals(pySolString)){
+         System.out.println("The card type has been changed to PySol.");
+         getType = 2;
+      }
+      
+      else if (action.equals(cardMageString)){
+         System.out.println("The card type has been changed to Card Mage.");
+         getType = 3;
+      }
+      
+      else if (action.equals(defaultString)){
          System.out.println("The card type has been changed back to default.");
-         cardType = false;
+         getType = 0;
       }
       
-      // For the button Options
+      
+      //for the push down buttons
       if (action.equals("Play Perpetual Motion ->")) {
          System.out.println("Launching Perpetual Motion...");
-         BoardDriver.main();
+         BoardDriver.main(getType);
       }
       else if (action.equals("Play Baroness ->")) {
          System.out.println("Launching Baroness...");
-         Baroness.main();
-         
+         Baroness.main(getType);
       }
       
       //displays the rules
@@ -137,8 +167,6 @@ public class MenuDriver extends JPanel implements ActionListener
       
       
   }
-   
- // public static void addComponentsToPane(Container pane) 
    
    
    private static void createAndShowGUI() {

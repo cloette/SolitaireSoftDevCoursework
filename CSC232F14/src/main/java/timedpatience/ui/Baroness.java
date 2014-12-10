@@ -44,9 +44,10 @@ public class Baroness extends JPanel
    
    //private static JTextField ORE;
    static int score = 0;
+   int cardType;
    static JLabel SC = new JLabel("Score: " + score);
    
-   public static void main()
+   public static void main(int cardType)
    { 
      // JTextField SC = null;
       JFrame frame = new JFrame("Baroness");
@@ -67,6 +68,8 @@ public class Baroness extends JPanel
      
       frame.getContentPane().add(sub, BorderLayout.SOUTH);
       frame.getContentPane().add(subb, BorderLayout.NORTH);
+
+      System.out.println("The card type is: " + cardType);
 
       
       final Deck deckA = new Deck();
@@ -89,17 +92,16 @@ public class Baroness extends JPanel
       File imageDirectory = new File("src/main/Resources/Cards");
       CardImages images = new CardImages(imageDirectory);
       
-      final DeckComponent dcA = new DeckComponent(deckA, images);
-      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcA = new DeckComponent(deckA, images, cardType);
+      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL, cardType);
       
       dcA.setDeckListener(new DeckListener()
       {
          public void handleClick(DeckComponent deckComponent)
          {
-         
             
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
@@ -160,18 +162,22 @@ public class Baroness extends JPanel
             if (card1 != null )
                {
                dcB.addCard(card1);
+               System.out.println("The card is: " + card1.getAbbrev());
                dcB.flipTopCard();
                   if (card2 != null )
                   {
                      dcC.addCard(card2);
+                     System.out.println("The card is: " + card2.getAbbrev());
                      dcC.flipTopCard();  
                      if ( card3 != null)
                      {
                         dcD.addCard(card3);
+                        System.out.println("The card is: " + card3.getAbbrev());
                         dcD.flipTopCard();
                         if(card4 != null)
                         {
                            dcE.addCard(card4);
+                           System.out.println("The card is: " + card4.getAbbrev());
                            dcE.flipTopCard();
                         }
                      }
