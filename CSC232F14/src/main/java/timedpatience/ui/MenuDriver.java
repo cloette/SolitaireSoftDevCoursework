@@ -21,9 +21,9 @@ import timedpatience.ui.Baroness;
 public class MenuDriver extends JPanel implements ActionListener
 {
    /**
-    * Initializes a window with 5 buttons that allows the user to select
+    * Initializes a window with 7 buttons that allows the user to select
     * between 2 game drivers, view the rules of the games
-    * and choose between two different card designs.
+    * and choose between four different card designs.
     * 
     * @author Owensby
     * @author Bolun
@@ -31,16 +31,21 @@ public class MenuDriver extends JPanel implements ActionListener
     */
    
    private static final long serialVersionUID = 1L;
+   
    static String defaultString = "Use Default Card Deck";
    static String egyptianString = "Use Egyptian Card Deck";
    static String cardMageString = "Use Card Mage Deck";
    static String pySolString = "Use PySol Deck";
+   
+   //Stores the information about the card type the user selects
    int getType = 0;
+   
    
    public MenuDriver(Container pane) {
       
       super(new BorderLayout());
-
+      
+      //Creates the push-down buttons
       JButton b1 = new JButton("Play Perpetual Motion ->");
       JButton b2 = new JButton("Play Baroness ->");
       JButton b3 = new JButton("View Rules.");
@@ -49,6 +54,8 @@ public class MenuDriver extends JPanel implements ActionListener
       b3.addActionListener(this);
 
       Insets insets = pane.getInsets();
+      
+      //Automatically resizes the window depending on the options
 
       Dimension size = b1.getPreferredSize();
       b1.setBounds(6 + insets.left, 70 + insets.top,
@@ -60,7 +67,7 @@ public class MenuDriver extends JPanel implements ActionListener
       b3.setBounds(6 + insets.left, 150 + insets.top,
                    size.width, size.height);
 
-      //Create the buttons.
+      //Creates the radio buttons.
       JRadioButton defaultButton = new JRadioButton(defaultString);
       defaultButton.setMnemonic(KeyEvent.VK_B);
       defaultButton.setActionCommand(defaultString);
@@ -93,22 +100,24 @@ public class MenuDriver extends JPanel implements ActionListener
 
       //Put the radio buttons in a column in a panel.
       JPanel radioPanel = new JPanel(new GridLayout(1, 2));
+      //push-down buttons
       radioPanel.add(b1);
       radioPanel.add(b2);
       radioPanel.add(b3);
+      //radio buttons
       radioPanel.add(defaultButton);
       radioPanel.add(egyptianButton);
       radioPanel.add(cardMageButton);
       radioPanel.add(pySolButton);
 
-
+      // add it to the panel
       add(radioPanel, BorderLayout.LINE_START);
       setBorder(BorderFactory.createEmptyBorder(20,20,20,20));  
   }
    
    
 
-// For the push down buttons
+// Actions taken upon the user's click
    public void actionPerformed(ActionEvent e) {
       
       String action = e.getActionCommand();
