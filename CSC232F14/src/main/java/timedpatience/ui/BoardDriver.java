@@ -33,6 +33,7 @@ public class BoardDriver extends JPanel
    
    //private static JTextField ORE;
    static int score = 0;
+   static int pile = 0;
    static JLabel SC = new JLabel("Score: " + score);
    
    final static Deck deckA = new Deck();
@@ -80,6 +81,30 @@ public class BoardDriver extends JPanel
          {
          tempDeckE.add(deckE.getNum(i));
          }
+   }
+   
+   public static void correctForU()
+   {
+      if (pile == 2)
+      {
+         tempDeckB.deal();
+         pile = 0;
+      }
+      if (pile == 3)
+      {
+         tempDeckC.deal();
+         pile = 0;
+      }
+      if (pile == 4)
+      {
+         tempDeckD.deal();
+         pile = 0;
+      }
+      if (pile == 5)
+      {
+         tempDeckE.deal();
+         pile = 0;
+      }
    }
    
    public static void main()
@@ -143,32 +168,28 @@ public class BoardDriver extends JPanel
                else{
                   // empties out the pile back into the stock
                   for (int i=deckB.size(); i>0; i--){
-                     Card card1 = dcB.getTopCard();
+                     Card card1 = dcB.removeTopCard();
                      card1.flip();
-                     dcB.removeTopCard();
-                     deckA.add(card1);
+                     dcA.addCard(card1);
                      
                   }
                   // empties out the pile back into the stock
                   for (int i=deckC.size(); i>0; i--){
-                     Card card2 = dcC.getTopCard();
+                     Card card2 = dcC.removeTopCard();
                      card2.flip();
-                     dcC.removeTopCard();
-                     deckA.add(card2);
+                     dcA.addCard(card2);
                   }
                   // empties out the pile back into the stock
                   for (int i=deckD.size(); i>0; i--){
-                     Card card3 = dcD.getTopCard();
+                     Card card3 = dcD.removeTopCard();
                      card3.flip();
-                     dcD.removeTopCard();
-                     deckA.add(card3);
+                     dcA.addCard(card3);
                   }
                   // empties out the pile back into the stock
                   for (int i=deckE.size(); i>0; i--){
-                     Card card4 = dcE.getTopCard();
+                     Card card4 = dcE.removeTopCard();
                      card4.flip();
-                     dcE.removeTopCard();
-                     deckA.add(card4);
+                     dcA.addCard(card4);
                   }
                }
             }
@@ -218,13 +239,18 @@ public class BoardDriver extends JPanel
             // Only allow drops of the same rank as the top card
             return false;
          }
+         
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            // TODO Auto-generated method stub
+         }
       });
       
       dcB.setDeckListener(new DeckListener()
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            
+            //saveForU();
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -235,9 +261,18 @@ public class BoardDriver extends JPanel
             }
             if (card.getRank().equals(deckComponent.getTopCard().getRank()))
             {
-               saveForU();
+               //saveForU();
             }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 2;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -245,7 +280,7 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            
+            //saveForU();
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -256,9 +291,18 @@ public class BoardDriver extends JPanel
             }
             if (card.getRank().equals(deckComponent.getTopCard().getRank()))
             {
-               saveForU();
+               //saveForU();
             }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 3;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -266,7 +310,7 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            
+            //saveForU();
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -277,9 +321,18 @@ public class BoardDriver extends JPanel
             }
             if (card.getRank().equals(deckComponent.getTopCard().getRank()))
             {
-               saveForU();
+               //saveForU();
             }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 4;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -287,7 +340,7 @@ public class BoardDriver extends JPanel
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            
+            //saveForU();
          }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -298,9 +351,18 @@ public class BoardDriver extends JPanel
             }
             if (card.getRank().equals(deckComponent.getTopCard().getRank()))
             {
-               saveForU();
+               //saveForU();
             }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 5;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -351,6 +413,7 @@ public class BoardDriver extends JPanel
             deckC.clear();
             deckD.clear();
             deckE.clear();
+            
             
             if (tempDeckA.size() == 0)
             {
@@ -417,6 +480,9 @@ public class BoardDriver extends JPanel
                }
                dcE.addCard(tempDeckE.getNum(i));
             }
+            
+            
+            
             return;
             }
          }

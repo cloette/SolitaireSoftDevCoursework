@@ -20,6 +20,8 @@ public interface DeckListener
     * @return true if it is a legal drop
     */
    boolean checkDrop(DeckComponent deckComponent, Card card);
+   
+   void completeDrop(DeckComponent deckComponent, Card card);
 
    /**
     * This is called when the deck is clicked on. A typical action is to remove

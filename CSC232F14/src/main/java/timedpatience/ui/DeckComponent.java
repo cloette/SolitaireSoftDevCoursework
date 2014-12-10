@@ -235,6 +235,9 @@ public class DeckComponent extends JComponent
          {
             Card card = getCard(support.getTransferable());
             addCard(card);
+            if (listener != null) {
+               listener.completeDrop(DeckComponent.this, card);
+            }
             return true;
          }
 

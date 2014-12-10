@@ -64,6 +64,12 @@ public class GUIDemo
             // Only allow drops of the same suit as the top card
             return card.getSuit().equals(deckComponent.getTopCard().getSuit());
          }
+
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            // TODO Auto-generated method stub
+            
+         }
       });
       
       dcA.setDraggable(true);

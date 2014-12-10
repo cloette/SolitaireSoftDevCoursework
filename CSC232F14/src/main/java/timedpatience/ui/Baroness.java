@@ -43,6 +43,7 @@ public class Baroness extends JPanel
    
    //private static JTextField ORE;
    static int score = 0;
+   static int pile = 0;
    static JLabel SC = new JLabel("Score: " + score);
    
    final static Deck deckA = new Deck();
@@ -90,6 +91,30 @@ public class Baroness extends JPanel
          {
          tempDeckE.add(deckE.getNum(i));
          }
+   }
+   
+   public static void correctForU()
+   {
+      if (pile == 2)
+      {
+         tempDeckB.deal();
+         pile = 0;
+      }
+      if (pile == 3)
+      {
+         tempDeckC.deal();
+         pile = 0;
+      }
+      if (pile == 4)
+      {
+         tempDeckD.deal();
+         pile = 0;
+      }
+      if (pile == 5)
+      {
+         tempDeckE.deal();
+         pile = 0;
+      }
    }
    
    public static void main()
@@ -145,49 +170,41 @@ public class Baroness extends JPanel
             
             if (newTop == null){
                // If all piles are empty, the user has won. Print a winner message.
-               if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty() && deckE.isEmpty()){
+               if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty()){
                   JOptionPane.showMessageDialog(null, "Congrats! You won. Play again?");
-                  deckA.clear();
-                  deckB.clear();
-                  deckC.clear();
-                  deckD.clear();
-                  deckE.clear();
                   deckA.fill();
                   deckA.shuffle();
                }
-                  // all the cards go back into the stock pile
-                  else{
-                     // empties out the pile back into the stock
-                     for (int i=deckB.size(); i>0; i--){
-                        Card card1 = dcB.getTopCard();
-                        card1.flip();
-                        dcB.removeTopCard();
-                        deckA.add(card1);
-                        
-                     }
-                     // empties out the pile back into the stock
-                     for (int i=deckC.size(); i>0; i--){
-                        Card card2 = dcC.getTopCard();
-                        card2.flip();
-                        dcC.removeTopCard();
-                        deckA.add(card2);
-                     }
-                     // empties out the pile back into the stock
-                     for (int i=deckD.size(); i>0; i--){
-                        Card card3 = dcD.getTopCard();
-                        card3.flip();
-                        dcD.removeTopCard();
-                        deckA.add(card3);
-                     }
-                     // empties out the pile back into the stock
-                     for (int i=deckE.size(); i>0; i--){
-                        Card card4 = dcE.getTopCard();
-                        card4.flip();
-                        dcE.removeTopCard();
-                        deckA.add(card4);
-                     }
+               // all the cards go back into the stock pile
+               else{
+                  // empties out the pile back into the stock
+                  for (int i=deckB.size(); i>0; i--){
+                     Card card1 = dcB.removeTopCard();
+                     card1.flip();
+                     dcA.addCard(card1);
+                     
+                  }
+                  // empties out the pile back into the stock
+                  for (int i=deckC.size(); i>0; i--){
+                     Card card2 = dcC.removeTopCard();
+                     card2.flip();
+                     dcA.addCard(card2);
+                  }
+                  // empties out the pile back into the stock
+                  for (int i=deckD.size(); i>0; i--){
+                     Card card3 = dcD.removeTopCard();
+                     card3.flip();
+                     dcA.addCard(card3);
+                  }
+                  // empties out the pile back into the stock
+                  for (int i=deckE.size(); i>0; i--){
+                     Card card4 = dcE.removeTopCard();
+                     card4.flip();
+                     dcA.addCard(card4);
                   }
                }
+            }
+            
             
                
             Card card1 = deckComponent.removeTopCard();
@@ -226,6 +243,12 @@ public class Baroness extends JPanel
             // Not allowed to drop a card to the stock pile
             return false;
          }
+         
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            // TODO Auto-generated method stub
+            
+         }
       });
       
       dcB.setDeckListener(new DeckListener()
@@ -257,9 +280,18 @@ public class Baroness extends JPanel
             }
             if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
             {
-               saveForU();
+               //saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 2;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -292,9 +324,18 @@ public class Baroness extends JPanel
             }
             if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
             {
-               saveForU();
+               //saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 3;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -327,9 +368,18 @@ public class Baroness extends JPanel
             }
             if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
             {
-               saveForU();
+               //saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 4;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
@@ -362,9 +412,18 @@ public class Baroness extends JPanel
             }
             if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
             {
-               saveForU();
+               //saveForU();
             }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU();
+            pile = 5;
+            correctForU();
+            //deckComponent.removeTopCard();
+            //deckComponent.removeTopCard();
+            // TODO Auto-generated method stub
          }
       });
       
