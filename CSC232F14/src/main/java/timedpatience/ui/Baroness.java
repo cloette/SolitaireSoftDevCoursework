@@ -44,6 +44,7 @@ public class Baroness extends JPanel
    //private static JTextField ORE;
    static int score = 0;
    static int pile = 0;
+   int cardType;
    static JLabel SC = new JLabel("Score: " + score);
    
    final static Deck deckA = new Deck();
@@ -117,7 +118,7 @@ public class Baroness extends JPanel
       }
    }
    
-   public static void main()
+   public static void main(int cardType)
    { 
      // JTextField SC = null;
       JFrame frame = new JFrame("Baroness");
@@ -153,11 +154,11 @@ public class Baroness extends JPanel
       File imageDirectory = new File("src/main/Resources/Cards");
       CardImages images = new CardImages(imageDirectory);
       
-      final DeckComponent dcA = new DeckComponent(deckA, images);
-      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL);
-      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL);
+      final DeckComponent dcA = new DeckComponent(deckA, images, cardType);
+      final DeckComponent dcB = new DeckComponent(deckB, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcC = new DeckComponent(deckC, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL, cardType);
+      final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL, cardType);
       
       
       dcA.setDeckListener(new DeckListener()

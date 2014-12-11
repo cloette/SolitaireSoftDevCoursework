@@ -21,6 +21,14 @@ public interface DeckListener
     */
    boolean checkDrop(DeckComponent deckComponent, Card card);
    
+   /**
+    * This executes the drop and records the move so it can be undone and redone.
+    * 
+    * @param deckComponent
+    *           the deck component firing the event
+    * @param card
+    *           the candidate card to be dropped
+    */
    void completeDrop(DeckComponent deckComponent, Card card);
 
    /**

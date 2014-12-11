@@ -12,32 +12,40 @@ import javax.swing.*;
 import java.awt.Container;
 import java.awt.Insets;
 import java.awt.Dimension;
+
 import javax.swing.JButton;
+
 import timedpatience.ui.BoardDriver;
 import timedpatience.ui.Baroness;
 
 public class MenuDriver extends JPanel implements ActionListener
 {
    /**
-    * Initializes a window with 5 buttons that allows the user to select
+    * Initializes a window with 7 buttons that allows the user to select
     * between 2 game drivers, view the rules of the games
-    * and choose between two different card designs.
+    * and choose between four different card designs.
     * 
     * @author Owensby
     * @author Bolun
     * @author Uribe
     */
    
-   private boolean cardType = false;
-   
    private static final long serialVersionUID = 1L;
+   
    static String defaultString = "Use Default Card Deck";
    static String egyptianString = "Use Egyptian Card Deck";
+   static String cardMageString = "Use Card Mage Deck";
+   static String pySolString = "Use PySol Deck";
+   
+   //Stores the information about the card type the user selects
+   int getType = 0;
+   
    
    public MenuDriver(Container pane) {
       
       super(new BorderLayout());
-
+      
+      //Creates the push-down buttons
       JButton b1 = new JButton("Play Perpetual Motion ->");
       JButton b2 = new JButton("Play Baroness ->");
       JButton b3 = new JButton("View Rules.");
@@ -46,6 +54,8 @@ public class MenuDriver extends JPanel implements ActionListener
       b3.addActionListener(this);
 
       Insets insets = pane.getInsets();
+      
+      //Automatically resizes the window depending on the options
 
       Dimension size = b1.getPreferredSize();
       b1.setBounds(6 + insets.left, 70 + insets.top,
@@ -57,7 +67,7 @@ public class MenuDriver extends JPanel implements ActionListener
       b3.setBounds(6 + insets.left, 150 + insets.top,
                    size.width, size.height);
 
-      //Create the buttons.
+      //Creates the radio buttons.
       JRadioButton defaultButton = new JRadioButton(defaultString);
       defaultButton.setMnemonic(KeyEvent.VK_B);
       defaultButton.setActionCommand(defaultString);
@@ -66,58 +76,92 @@ public class MenuDriver extends JPanel implements ActionListener
       JRadioButton egyptianButton = new JRadioButton(egyptianString);
       egyptianButton.setMnemonic(KeyEvent.VK_C);
       egyptianButton.setActionCommand(egyptianString);
+      
+      JRadioButton cardMageButton = new JRadioButton(cardMageString);
+      cardMageButton.setMnemonic(KeyEvent.VK_B);
+      cardMageButton.setActionCommand(cardMageString);
+
+      JRadioButton pySolButton = new JRadioButton(pySolString);
+      pySolButton.setMnemonic(KeyEvent.VK_C);
+      pySolButton.setActionCommand(pySolString);
 
       //Group the radio buttons.
       ButtonGroup group = new ButtonGroup();
       group.add(defaultButton);
       group.add(egyptianButton);
+      group.add(cardMageButton);
+      group.add(pySolButton);
       
       //Register a listener for the radio buttons.
       defaultButton.addActionListener(this);
       egyptianButton.addActionListener(this);
+      cardMageButton.addActionListener(this);
+      pySolButton.addActionListener(this);
 
       //Put the radio buttons in a column in a panel.
       JPanel radioPanel = new JPanel(new GridLayout(1, 2));
+      //push-down buttons
       radioPanel.add(b1);
       radioPanel.add(b2);
       radioPanel.add(b3);
+      //radio buttons
       radioPanel.add(defaultButton);
       radioPanel.add(egyptianButton);
+      radioPanel.add(cardMageButton);
+      radioPanel.add(pySolButton);
 
-
+      // add it to the panel
       add(radioPanel, BorderLayout.LINE_START);
       setBorder(BorderFactory.createEmptyBorder(20,20,20,20));  
   }
-   //takes the action depending on the user's click
+   
+   
+
+// Actions taken upon the user's click
    public void actionPerformed(ActionEvent e) {
       
       String action = e.getActionCommand();
       
-      // For the radio options
-      if (cardType == false && action.equals(egyptianString)){
-         System.out.println("The card type has been changed to Egyptian.");
-         cardType = true;
+      //For the radio buttons
+      if (action.equals(egyptianString)){
+         // display the copyright information 
+         JOptionPane.showMessageDialog(null, "Mamluk Egyptian cards by V.H. Smith. Distributed as freeware. \n"
+                  + "\n"
+                  + "Diamonds  = Coins \n"
+                  + "Clubs          = Polo Sticks \n"
+                  + "Hearts        = Cups \n"
+                  + "Spades      = Scimitar (Curved sword) \n");
+         getType = 1;
       }
       
-      else if (action.equals(defaultString)) {
-         System.out.println("The card type has been changed back to default.");
-         cardType = false;
+      else if (action.equals(pySolString)){
+         // display the copyright information
+         JOptionPane.showMessageDialog(null, "PySol cards: Original Deck © 1998 Niccolo Rigacci modified by © 1999 T. Kirk <grania@inetarena.com>. Released as free software.");
+         getType = 2;
       }
       
-      // For the button Options
+      else if (action.equals(cardMageString)){
+         // display the copyright information
+         JOptionPane.showMessageDialog(null, "CardMage cards: Original deck, © Oxymoron modified by © Katzmiff 2002 \n"
+                  + "Released under GLP license.");
+         getType = 3;
+      }
+      
+      else if (action.equals(defaultString)){
+         getType = 0;
+      }
+      
+      
+      //for the push down buttons
       if (action.equals("Play Perpetual Motion ->")) {
-         System.out.println("Launching Perpetual Motion...");
-         BoardDriver.main();
+         BoardDriver.main(getType);
       }
       else if (action.equals("Play Baroness ->")) {
-         System.out.println("Launching Baroness...");
-         Baroness.main();
-         
+         Baroness.main(getType);
       }
       
       //displays the rules
       else if (action.equals("View Rules.")) {
-         System.out.println("Showing Rules.");
          JOptionPane.showMessageDialog(null, "Perpetual Motion \n"
                   + "\n This solitaire game consists of four piles. "
                   + "\n Four cards are dealt at a time from the stock. "
@@ -137,8 +181,6 @@ public class MenuDriver extends JPanel implements ActionListener
       
       
   }
-   
- // public static void addComponentsToPane(Container pane) 
    
    
    private static void createAndShowGUI() {
