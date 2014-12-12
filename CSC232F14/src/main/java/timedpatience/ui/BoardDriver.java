@@ -111,7 +111,7 @@ public class BoardDriver extends JPanel
    public static void main(int cardType)
    { 
      // JTextField SC = null;
-      JFrame frame = new JFrame("BoardDriver");
+      JFrame frame = new JFrame("Perpetual Motion");
       JPanel sub = new JPanel();
       JPanel subb = new JPanel();
       frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -221,13 +221,15 @@ public class BoardDriver extends JPanel
                
                if (card1.getRank() == card2.getRank() && card2.getRank() == card3.getRank() && card3.getRank() == card4.getRank())
                {
+                  char rk = card1.getRank().getAbbrev();
                  dcB.removeTopCard();
                  dcC.removeTopCard();
                  dcD.removeTopCard();
                  dcE.removeTopCard();
                  score += 100;
                  SC.setText("Score: " + score);
-                 JOptionPane.showMessageDialog(null, "All cards had the same rank and were automatically removed.");
+                 JOptionPane.showMessageDialog(null, "All cards had the same rank " + rk +" and were automatically removed.");
+                 saveForU();
                }
                              
             }

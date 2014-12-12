@@ -45,6 +45,8 @@ public class Baroness extends JPanel
    static int score = 0;
    static int pile = 0;
    int cardType;
+   static int justscored = 0;
+   static int justreduced = 0;
    static JLabel SC = new JLabel("Score: " + score);
    
    final static Deck deckA = new Deck();
@@ -166,7 +168,7 @@ public class Baroness extends JPanel
          public void handleClick(DeckComponent deckComponent)
          {
             saveForU();
-            
+            justscored = 0;
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
             if (newTop == null){
@@ -260,6 +262,7 @@ public class Baroness extends JPanel
                saveForU();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
@@ -268,9 +271,11 @@ public class Baroness extends JPanel
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
+            return;
         }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -290,8 +295,11 @@ public class Baroness extends JPanel
             saveForU();
             pile = 2;
             correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            score += 100;
+            justscored = 1;
+            SC.setText("Score: " + score);
             // TODO Auto-generated method stub
          }
       });
@@ -304,6 +312,7 @@ public class Baroness extends JPanel
                saveForU();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
@@ -312,9 +321,11 @@ public class Baroness extends JPanel
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
+            return;
         }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -334,8 +345,11 @@ public class Baroness extends JPanel
             saveForU();
             pile = 3;
             correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            score += 100;
+            justscored = 1;
+            SC.setText("Score: " + score);
             // TODO Auto-generated method stub
          }
       });
@@ -348,6 +362,7 @@ public class Baroness extends JPanel
                saveForU();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
@@ -356,9 +371,11 @@ public class Baroness extends JPanel
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
+            return;
         }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -378,8 +395,11 @@ public class Baroness extends JPanel
             saveForU();
             pile = 4;
             correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            score += 100;
+            justscored = 1;
+            SC.setText("Score: " + score);
             // TODO Auto-generated method stub
          }
       });
@@ -392,6 +412,7 @@ public class Baroness extends JPanel
                saveForU();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
@@ -400,9 +421,11 @@ public class Baroness extends JPanel
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
+               justscored = 1;
                SC.setText("Score: " + score);
                return;
             }
+            return;
         }
          public boolean checkDrop(DeckComponent deckComponent, Card card)
          {
@@ -422,8 +445,11 @@ public class Baroness extends JPanel
             saveForU();
             pile = 5;
             correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            deckComponent.removeTopCard();
+            score += 100;
+            justscored = 1;
+            SC.setText("Score: " + score);
             // TODO Auto-generated method stub
          }
       });
@@ -541,6 +567,15 @@ public class Baroness extends JPanel
                }
                dcE.addCard(tempDeckE.getNum(i));
             }
+            saveForU();
+            if (justscored == 1)
+            {
+               score = score - 100; 
+               SC.setText("Score: " + score);
+               justscored = 0;
+               justreduced = 1;
+            }
+            
             return;
             }
          }
@@ -631,6 +666,13 @@ public class Baroness extends JPanel
                         TDE.getNum(i).flip();
                      }
                      dcE.addCard(TDE.getNum(i));
+                  }
+                  if (justreduced == 1)
+                  {
+                     score = score + 100; 
+                     SC.setText("Score: " + score);
+                     justscored = 1;
+                     justreduced = 0;
                   }
                   return;
                }
