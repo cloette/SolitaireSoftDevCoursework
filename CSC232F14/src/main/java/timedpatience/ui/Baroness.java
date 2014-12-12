@@ -293,7 +293,7 @@ public class Baroness extends JPanel
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
             saveForU();
-            pile = 2;
+            pile = 3;
             correctForU();
             deckComponent.removeTopCard();
             deckComponent.removeTopCard();
