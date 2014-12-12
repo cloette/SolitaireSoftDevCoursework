@@ -1,21 +1,19 @@
 package timedpatience.ui;
 
-/**
- * Creates a game of Perpetual Motion. The game consists of 4 piles and a stock pile
- * It has a score feature and a redo/undo button. User the game wins the game when there are
- * no cards left in any of the piles.
- * 
- * @author Cloette Owensby, Connie Uribe, Bolun Zhang
- * @date 11/16/2014
- */
 
 import java.awt.BorderLayout;
+
+import javax.swing.Timer;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -32,9 +30,11 @@ public class BoardDriver extends JPanel
 {
    
    //private static JTextField ORE;
+   
    static int score = 0;
    static int pile = 0;
    int cardType;
+   Timer timer;
    static JLabel SC = new JLabel("Score: " + score);
    
    final static Deck deckA = new Deck();
@@ -120,10 +120,12 @@ public class BoardDriver extends JPanel
       frame.setLayout(new BorderLayout());
       JButton undo = new JButton("UNDO");
       JButton redo = new JButton("REDO");
+      JLabel timerLabel = new JLabel("Timer: !!!!!!");
 
       sub.add(undo);
       sub.add(redo);
       subb.add(SC);
+      subb.add(timerLabel);
       
      
       frame.getContentPane().add(sub, BorderLayout.SOUTH);
@@ -368,6 +370,20 @@ public class BoardDriver extends JPanel
             // TODO Auto-generated method stub
          }
       });
+      
+      //TODO: Date
+      DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a z");//format
+      Date date = new Date();//starting time
+      String formattedDateTime = dateFormat.format(date); //starting time in correct format
+      timerLabel.setText("Time started: " + formattedDateTime);// display starting time
+      if(score == 2800){
+        Date date2 = new Date();//if win record that time
+        //String formattedDateTime2 = dateFormat.format(date2);//convert to correct format
+        String finished = dateFormat.format(date2);
+        timerLabel.setText("Time finished: " + finished);
+      }
+      
+      
       
       
       undo.addActionListener(new ActionListener() {

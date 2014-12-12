@@ -15,13 +15,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 import java.io.File;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 
 import timedpatience.model.Card;
 import timedpatience.model.Deck;
@@ -132,10 +133,13 @@ public class Baroness extends JPanel
       frame.setLayout(new BorderLayout());
       JButton undo = new JButton("UNDO");
       JButton redo = new JButton("REDO");
+      JLabel timerLabel = new JLabel("Timer: !!!!!!");
+
 
       sub.add(undo);
       sub.add(redo);
       subb.add(SC);
+      subb.add(timerLabel);
       
      
       frame.getContentPane().add(sub, BorderLayout.SOUTH);
@@ -453,7 +457,17 @@ public class Baroness extends JPanel
             // TODO Auto-generated method stub
          }
       });
-      
+      //TODO: Date
+      DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a z");//format
+      Date date = new Date();//starting time
+      String formattedDateTime = dateFormat.format(date); //starting time in correct format
+      timerLabel.setText("Time started: " + formattedDateTime);// display starting time
+      if(score == 2800){
+        Date date2 = new Date();//if win record that time
+        //String formattedDateTime2 = dateFormat.format(date2);//convert to correct format
+        String finished = dateFormat.format(date2);
+        timerLabel.setText("Time finished: " + finished);
+      }
       
       undo.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
