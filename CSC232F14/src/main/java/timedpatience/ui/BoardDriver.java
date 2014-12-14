@@ -32,30 +32,29 @@ public class BoardDriver extends JPanel
    //private static JTextField ORE;
    
    static int score = 0;
-   static int pile = 0;
    int cardType;
    Timer timer;
    static JLabel SC = new JLabel("Score: " + score);
    
-   final static Deck deckA = new Deck();
+   final static Deck deckA = new Deck(); //create 5 decks that are going to be used to put on the 5 piles for the game
    final static Deck deckB = new Deck();
    final static Deck deckC = new Deck();
    final static Deck deckD = new Deck();
    final static Deck deckE = new Deck();
 
    
-   final static Deck tempDeckA = new Deck();
+   final static Deck tempDeckA = new Deck(); //create 5 shadow decks to store what's in each deck before each move (provide data for undo function)
    final static Deck tempDeckB = new Deck();
    final static Deck tempDeckC = new Deck();
    final static Deck tempDeckD = new Deck();
    final static Deck tempDeckE = new Deck();
-   final static Deck TDA = new Deck();
+   final static Deck TDA = new Deck(); //create additional shadow decks to store the state of deck A~E before undo is called
    final static Deck TDB = new Deck();
    final static Deck TDC = new Deck();
    final static Deck TDD = new Deck();
    final static Deck TDE = new Deck();
    
-   public static void saveForU()
+   public static void saveForU(int pile) // refresh the 5 shadow decks to store what's in each deck before each move (provide data for undo function)
    {
       tempDeckA.clear();
       tempDeckB.clear();
@@ -82,11 +81,8 @@ public class BoardDriver extends JPanel
          {
          tempDeckE.add(deckE.getNum(i));
          }
-   }
-   
-   public static void correctForU()
-   {
-      if (pile == 2)
+      
+      if (pile == 2) // to eliminate the extra card that is been stored in certain cases
       {
          tempDeckB.deal();
          pile = 0;
@@ -107,6 +103,7 @@ public class BoardDriver extends JPanel
          pile = 0;
       }
    }
+   
    
    public static void main(int cardType)
    { 
@@ -149,14 +146,14 @@ public class BoardDriver extends JPanel
       final DeckComponent dcD = new DeckComponent(deckD, images, DeckComponent.FAN_VERTICAL, cardType);
       final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL, cardType);
       
-      dcA.setDeckListener(new DeckListener()
+      dcA.setDeckListener(new DeckListener() // distribute cards to pile b~e when pile a is been clicked, when pile a is empty, retrieve all cards from pile b~e. 
       {
          
          public void handleClick(DeckComponent deckComponent)
          {
             // When clicked, deal a card to deck B, C, D, and E.
             
-            saveForU();
+            saveForU(1);
             
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
@@ -208,7 +205,7 @@ public class BoardDriver extends JPanel
             
             // as long as there are enough cards left to deal, deal them upon click
             
-            if (card1 != null && card2 != null && card3 != null && card4 != null)
+            if (card1 != null && card2 != null && card3 != null && card4 != null) // distribute as much card as possible (as long as the cards are not null.)
             {
                dcB.addCard(card1);
                dcB.flipTopCard();
@@ -221,7 +218,7 @@ public class BoardDriver extends JPanel
                
                // if all dealt cards have the same rank, remove those 4 from the board
                
-               if (card1.getRank() == card2.getRank() && card2.getRank() == card3.getRank() && card3.getRank() == card4.getRank())
+               if (card1.getRank() == card2.getRank() && card2.getRank() == card3.getRank() && card3.getRank() == card4.getRank()) // remove the four cards that are of the same rank
                {
                   char rk = card1.getRank().getAbbrev();
                  dcB.removeTopCard();
@@ -231,7 +228,7 @@ public class BoardDriver extends JPanel
                  score += 100;
                  SC.setText("Score: " + score);
                  JOptionPane.showMessageDialog(null, "All cards had the same rank " + rk +" and were automatically removed.");
-                 saveForU();
+                 saveForU(0);
                }
                              
             }
@@ -247,11 +244,73 @@ public class BoardDriver extends JPanel
          
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            // TODO Auto-generated method stub
          }
       });
       
-      dcB.setDeckListener(new DeckListener()
+      dcB.setDeckListener(new DeckListener() // allow drop if the dropped card has a same rank with the first card in the pile
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU(2);
+         }
+      });
+      
+      dcC.setDeckListener(new DeckListener() // allow drop if the dropped card has a same rank with the first card in the pile
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+            
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU(3);
+         }
+      });
+      
+      dcD.setDeckListener(new DeckListener() // allow drop if the dropped card has a same rank with the first card in the pile
+      {
+         public void handleClick(DeckComponent deckComponent)
+         {
+            
+         }
+         public boolean checkDrop(DeckComponent deckComponent, Card card)
+         {
+            // Only allow drops of the same rank as the top card
+            if (deckComponent.getTopCard() == null)
+            {
+               return false;
+            }
+            return card.getRank().equals(deckComponent.getTopCard().getRank());
+         }
+         public void completeDrop(DeckComponent deckComponent, Card card)
+         {
+            saveForU(4);
+         }
+      });
+      
+      dcE.setDeckListener(new DeckListener() // allow drop if the dropped card has a same rank with the first card in the pile
       {
          public void handleClick(DeckComponent deckComponent)
          {
@@ -264,114 +323,14 @@ public class BoardDriver extends JPanel
             {
                return false;
             }
-            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
-            {
-               //saveForU();
-            }
             return card.getRank().equals(deckComponent.getTopCard().getRank());
          }
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            saveForU();
-            pile = 2;
-            correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
-            // TODO Auto-generated method stub
+            saveForU(5);
          }
       });
       
-      dcC.setDeckListener(new DeckListener()
-      {
-         public void handleClick(DeckComponent deckComponent)
-         {
-            //saveForU();
-         }
-         public boolean checkDrop(DeckComponent deckComponent, Card card)
-         {
-            // Only allow drops of the same rank as the top card
-            if (deckComponent.getTopCard() == null)
-            {
-               return false;
-            }
-            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
-            {
-               //saveForU();
-            }
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
-         }
-         public void completeDrop(DeckComponent deckComponent, Card card)
-         {
-            saveForU();
-            pile = 3;
-            correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
-            // TODO Auto-generated method stub
-         }
-      });
-      
-      dcD.setDeckListener(new DeckListener()
-      {
-         public void handleClick(DeckComponent deckComponent)
-         {
-            //saveForU();
-         }
-         public boolean checkDrop(DeckComponent deckComponent, Card card)
-         {
-            // Only allow drops of the same rank as the top card
-            if (deckComponent.getTopCard() == null)
-            {
-               return false;
-            }
-            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
-            {
-               //saveForU();
-            }
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
-         }
-         public void completeDrop(DeckComponent deckComponent, Card card)
-         {
-            saveForU();
-            pile = 4;
-            correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
-            // TODO Auto-generated method stub
-         }
-      });
-      
-      dcE.setDeckListener(new DeckListener()
-      {
-         public void handleClick(DeckComponent deckComponent)
-         {
-            //saveForU();
-         }
-         public boolean checkDrop(DeckComponent deckComponent, Card card)
-         {
-            // Only allow drops of the same rank as the top card
-            if (deckComponent.getTopCard() == null)
-            {
-               return false;
-            }
-            if (card.getRank().equals(deckComponent.getTopCard().getRank()))
-            {
-               //saveForU();
-            }
-            return card.getRank().equals(deckComponent.getTopCard().getRank());
-         }
-         public void completeDrop(DeckComponent deckComponent, Card card)
-         {
-            saveForU();
-            pile = 5;
-            correctForU();
-            //deckComponent.removeTopCard();
-            //deckComponent.removeTopCard();
-            // TODO Auto-generated method stub
-         }
-      });
-      
-      //TODO: Date
       DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a z");//format
       Date date = new Date();//starting time
       String formattedDateTime = dateFormat.format(date); //starting time in correct format
@@ -386,7 +345,7 @@ public class BoardDriver extends JPanel
       
       
       
-      undo.addActionListener(new ActionListener() {
+      undo.addActionListener(new ActionListener() { // if the current state of pile A~E is different that tempDeckA~E, and not all tempDeckA~E are empty, store the current pile A~E into TDA~E(backup data for redo), empty pile A~E and replace them with tempDeckA~E.
          public void actionPerformed(ActionEvent e) {
             if (tempDeckA.size()==deckA.size() && tempDeckB.size()==deckB.size() && tempDeckC.size()==deckC.size() && tempDeckD.size()==deckD.size() && tempDeckE.size()==deckE.size())
             {
@@ -507,7 +466,7 @@ public class BoardDriver extends JPanel
          }
       });
       
-      redo.addActionListener(new ActionListener() {
+      redo.addActionListener(new ActionListener() { // if the current state of pile A~E is different that TDA~E, and not all TDA~E are empty, empty pile A~E and replace them with TDA~E.
          public void actionPerformed(ActionEvent e) {
             if (TDA.size()==deckA.size() && TDB.size()==deckB.size() && TDC.size()==deckC.size() && TDD.size()==deckD.size() && TDE.size()==deckE.size())
             {

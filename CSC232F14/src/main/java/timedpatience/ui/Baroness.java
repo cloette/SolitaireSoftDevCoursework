@@ -44,31 +44,30 @@ public class Baroness extends JPanel
    
    //private static JTextField ORE;
    static int score = 0;
-   static int pile = 0;
    int cardType;
    static int justscored = 0;
    static int justreduced = 0;
    static JLabel SC = new JLabel("Score: " + score);
    
-   final static Deck deckA = new Deck();
+   final static Deck deckA = new Deck();  //create 5 decks that are going to be used to put on the 5 piles for the game
    final static Deck deckB = new Deck();
    final static Deck deckC = new Deck();
    final static Deck deckD = new Deck();
    final static Deck deckE = new Deck();
 
    
-   final static Deck tempDeckA = new Deck();
+   final static Deck tempDeckA = new Deck(); //create 5 shadow decks to store what's in each deck before each move (provide data for undo function)
    final static Deck tempDeckB = new Deck();
    final static Deck tempDeckC = new Deck();
    final static Deck tempDeckD = new Deck();
    final static Deck tempDeckE = new Deck();
-   final static Deck TDA = new Deck();
+   final static Deck TDA = new Deck(); //create additional shadow decks to store the state of deck A~E before undo is called  
    final static Deck TDB = new Deck();
    final static Deck TDC = new Deck();
    final static Deck TDD = new Deck();
    final static Deck TDE = new Deck();
    
-   public static void saveForU()
+   public static void saveForU(int pile) // refresh the 5 shadow decks to store what's in each deck before each move (provide data for undo function)
    {
       tempDeckA.clear();
       tempDeckB.clear();
@@ -95,35 +94,28 @@ public class Baroness extends JPanel
          {
          tempDeckE.add(deckE.getNum(i));
          }
-   }
-   
-   public static void correctForU()
-   {
-      if (pile == 2)
+      
+      if (pile == 2) // to eliminate the extra card that is been stored in certain cases
       {
          tempDeckB.deal();
-         pile = 0;
       }
       if (pile == 3)
       {
          tempDeckC.deal();
-         pile = 0;
       }
       if (pile == 4)
       {
          tempDeckD.deal();
-         pile = 0;
       }
       if (pile == 5)
       {
          tempDeckE.deal();
-         pile = 0;
       }
    }
    
    public static void main(int cardType)
    { 
-     // JTextField SC = null;
+     // setup the frame's foundation
       JFrame frame = new JFrame("Baroness");
       JPanel sub = new JPanel();
       JPanel subb = new JPanel();
@@ -150,11 +142,6 @@ public class Baroness extends JPanel
       deckA.shuffle();
       
       // Creates the other four piles
-      
-      
-
-
-      
       // Loads the card images
       
       File imageDirectory = new File("src/main/Resources/Cards");
@@ -167,11 +154,11 @@ public class Baroness extends JPanel
       final DeckComponent dcE = new DeckComponent(deckE, images, DeckComponent.FAN_VERTICAL, cardType);
       
       
-      dcA.setDeckListener(new DeckListener()
+      dcA.setDeckListener(new DeckListener() // distribute cards to pile b~e when pile a is been clicked, when pile a is empty, retrieve all cards from pile b~e. 
       {
          public void handleClick(DeckComponent deckComponent)
          {
-            saveForU();
+            saveForU(1);
             justscored = 0;
             Card newTop = deckComponent.getTopCard(); //top of the stock pile
             
@@ -221,7 +208,7 @@ public class Baroness extends JPanel
             
             // as long as there are enough cards left to deal, deal them upon click
            
-            if (card1 != null )
+            if (card1 != null ) // distribute as much card as possible (as long as the cards are not null.)
                {
                dcB.addCard(card1);
                dcB.flipTopCard();
@@ -253,17 +240,16 @@ public class Baroness extends JPanel
          
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            // TODO Auto-generated method stub
             
          }
       });
       
-      dcB.setDeckListener(new DeckListener()
+      dcB.setDeckListener(new DeckListener() // when clicked, deal the first card if it's a K, deal the first two cards if their rank's sum is 13, allow drop if the dropped card has a rank that can add up to 13 with the first card in the pile, and the deal those two cards
       {
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                score += 100;
                justscored = 1;
@@ -271,7 +257,7 @@ public class Baroness extends JPanel
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
@@ -288,32 +274,25 @@ public class Baroness extends JPanel
             {
                return false;
             }
-            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
-            {
-               //saveForU();
-            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            saveForU();
-            pile = 3;
-            correctForU();
+            saveForU(2);
             deckComponent.removeTopCard();
             deckComponent.removeTopCard();
             score += 100;
             justscored = 1;
             SC.setText("Score: " + score);
-            // TODO Auto-generated method stub
          }
       });
       
-      dcC.setDeckListener(new DeckListener()
+      dcC.setDeckListener(new DeckListener()// when clicked, deal the first card if it's a K, deal the first two cards if their rank's sum is 13, allow drop if the dropped card has a rank that can add up to 13 with the first card in the pile, and the deal those two cards
       {
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                score += 100;
                justscored = 1;
@@ -321,7 +300,7 @@ public class Baroness extends JPanel
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
@@ -338,32 +317,25 @@ public class Baroness extends JPanel
             {
                return false;
             }
-            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
-            {
-               //saveForU();
-            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            saveForU();
-            pile = 3;
-            correctForU();
+            saveForU(3);
             deckComponent.removeTopCard();
             deckComponent.removeTopCard();
             score += 100;
             justscored = 1;
             SC.setText("Score: " + score);
-            // TODO Auto-generated method stub
          }
       });
       
-      dcD.setDeckListener(new DeckListener()
+      dcD.setDeckListener(new DeckListener()// when clicked, deal the first card if it's a K, deal the first two cards if their rank's sum is 13, allow drop if the dropped card has a rank that can add up to 13 with the first card in the pile, and the deal those two cards
       {
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                score += 100;
                justscored = 1;
@@ -371,7 +343,7 @@ public class Baroness extends JPanel
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
@@ -388,32 +360,25 @@ public class Baroness extends JPanel
             {
                return false;
             }
-            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
-            {
-               //saveForU();
-            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            saveForU();
-            pile = 4;
-            correctForU();
+            saveForU(4);
             deckComponent.removeTopCard();
             deckComponent.removeTopCard();
             score += 100;
             justscored = 1;
             SC.setText("Score: " + score);
-            // TODO Auto-generated method stub
          }
       });
       
-      dcE.setDeckListener(new DeckListener()
+      dcE.setDeckListener(new DeckListener()// when clicked, deal the first card if it's a K, deal the first two cards if their rank's sum is 13, allow drop if the dropped card has a rank that can add up to 13 with the first card in the pile, and the deal those two cards
       {
          public void handleClick(DeckComponent deckComponent)
          {
             if (deckComponent.getTopCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                score += 100;
                justscored = 1;
@@ -421,7 +386,7 @@ public class Baroness extends JPanel
                return;
             }
             if (deckComponent.getTopCard().getRank().getValue() + deckComponent.getPrevCard().getRank().getValue() == 13){
-               saveForU();
+               saveForU(0);
                deckComponent.removeTopCard();
                deckComponent.removeTopCard();
                score += 100;
@@ -438,26 +403,18 @@ public class Baroness extends JPanel
             {
                return false;
             }
-            if (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue())
-            {
-               //saveForU();
-            }
             return (card.getRank().getValue() == 13- deckComponent.getTopCard().getRank().getValue());
          }
          public void completeDrop(DeckComponent deckComponent, Card card)
          {
-            saveForU();
-            pile = 5;
-            correctForU();
+            saveForU(5);
             deckComponent.removeTopCard();
             deckComponent.removeTopCard();
             score += 100;
             justscored = 1;
             SC.setText("Score: " + score);
-            // TODO Auto-generated method stub
          }
       });
-      //TODO: Date
       DateFormat dateFormat = new SimpleDateFormat("hh:mm:ss a z");//format
       Date date = new Date();//starting time
       String formattedDateTime = dateFormat.format(date); //starting time in correct format
@@ -469,7 +426,7 @@ public class Baroness extends JPanel
         timerLabel.setText("Time finished: " + finished);
       }
       
-      undo.addActionListener(new ActionListener() {
+      undo.addActionListener(new ActionListener() { // if the current state of pile A~E is different that tempDeckA~E, and not all tempDeckA~E are empty, store the current pile A~E into TDA~E(backup data for redo), empty pile A~E and replace them with tempDeckA~E. 
          public void actionPerformed(ActionEvent e) {
             if (tempDeckA.size()==deckA.size() && tempDeckB.size()==deckB.size() && tempDeckC.size()==deckC.size() && tempDeckD.size()==deckD.size() && tempDeckE.size()==deckE.size())
             {
@@ -581,7 +538,7 @@ public class Baroness extends JPanel
                }
                dcE.addCard(tempDeckE.getNum(i));
             }
-            saveForU();
+            saveForU(0);
             if (justscored == 1)
             {
                score = score - 100; 
@@ -595,7 +552,7 @@ public class Baroness extends JPanel
          }
       });
       
-      redo.addActionListener(new ActionListener() {
+      redo.addActionListener(new ActionListener() {// if the current state of pile A~E is different that TDA~E, and not all TDA~E are empty, empty pile A~E and replace them with TDA~E.
          public void actionPerformed(ActionEvent e) {
             if (TDA.size()==deckA.size() && TDB.size()==deckB.size() && TDC.size()==deckC.size() && TDD.size()==deckD.size() && TDE.size()==deckE.size())
             {

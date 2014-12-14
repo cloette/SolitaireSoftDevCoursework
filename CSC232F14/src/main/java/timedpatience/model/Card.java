@@ -9,18 +9,7 @@ package timedpatience.model;
  */
 public class Card implements Comparable<Card>
 {
-   /**
-    * Construct a card with the given rank and suit; it is initially face-down.
-    * 
-    * @param rank
-    * @param suit
-    */
-   /*public Card(Rank rank, Suit suit)
-   {
-      this.rank = rank;
-      this.suit = suit;
-      this.faceUp = false;
-   }*/
+
 
    /**
     * Construct a card with the given rank, suit, and face-up status.
