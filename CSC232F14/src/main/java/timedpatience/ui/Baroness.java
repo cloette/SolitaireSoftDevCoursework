@@ -9,6 +9,7 @@ package timedpatience.ui;
  */
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -113,7 +114,7 @@ public class Baroness extends JPanel
       }
    }
    
-   public static void main(int cardType)
+   public static void main(int cardType, Color backgroundColor)
    { 
      // setup the frame's foundation
       JFrame frame = new JFrame("Baroness");
@@ -127,12 +128,10 @@ public class Baroness extends JPanel
       JButton redo = new JButton("REDO");
       JLabel timerLabel = new JLabel("Timer: !!!!!!");
 
-
       sub.add(undo);
       sub.add(redo);
       subb.add(SC);
       subb.add(timerLabel);
-      
      
       frame.getContentPane().add(sub, BorderLayout.SOUTH);
       frame.getContentPane().add(subb, BorderLayout.NORTH);
@@ -667,6 +666,11 @@ public class Baroness extends JPanel
       panel.add(dcC);
       panel.add(dcD);
       panel.add(dcE);
+      
+      //passes the user's selected background
+      panel.setBackground(backgroundColor);
+      sub.setBackground(backgroundColor);
+      subb.setBackground(backgroundColor);
       
      // frame.add(SC);
       frame.add(panel, BorderLayout.CENTER);

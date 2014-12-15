@@ -2,6 +2,7 @@ package timedpatience.ui;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.Timer;
 
@@ -105,7 +106,7 @@ public class BoardDriver extends JPanel
    }
    
    
-   public static void main(int cardType)
+   public static void main(int cardType, Color backgroundColor)
    { 
      // JTextField SC = null;
       JFrame frame = new JFrame("Perpetual Motion");
@@ -575,8 +576,14 @@ public class BoardDriver extends JPanel
       panel.add(dcD);
       panel.add(dcE);
       
+      //passes the user's selected background
+      panel.setBackground(backgroundColor);
+      sub.setBackground(backgroundColor);
+      subb.setBackground(backgroundColor);
+      
      // frame.add(SC);
       frame.add(panel, BorderLayout.CENTER);
       frame.setVisible(true);
+      
    }
 }

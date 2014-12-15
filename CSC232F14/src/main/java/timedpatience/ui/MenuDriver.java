@@ -36,6 +36,7 @@ public class MenuDriver extends JPanel implements ActionListener
    static String egyptianString = "Use Egyptian Card Deck";
    static String cardMageString = "Use Card Mage Deck";
    static String pySolString = "Use PySol Deck";
+   Color backgroundColor;
    
    //Stores the information about the card type the user selects
    int getType = 0;
@@ -49,10 +50,12 @@ public class MenuDriver extends JPanel implements ActionListener
       JButton b1 = new JButton("Play Perpetual Motion ->");
       JButton b2 = new JButton("Play Baroness ->");
       JButton b3 = new JButton("View Rules.");
+      JButton chooseButton = new JButton("Choose background color");  
       b1.addActionListener(this);
       b2.addActionListener(this);
       b3.addActionListener(this);
-
+      chooseButton.addActionListener(this);
+      
       Insets insets = pane.getInsets();
       
       //Automatically resizes the window depending on the options
@@ -99,7 +102,7 @@ public class MenuDriver extends JPanel implements ActionListener
       pySolButton.addActionListener(this);
 
       //Put the radio buttons in a column in a panel.
-      JPanel radioPanel = new JPanel(new GridLayout(1, 2));
+      JPanel radioPanel = new JPanel(new GridLayout(3, 1));
       //push-down buttons
       radioPanel.add(b1);
       radioPanel.add(b2);
@@ -109,6 +112,8 @@ public class MenuDriver extends JPanel implements ActionListener
       radioPanel.add(egyptianButton);
       radioPanel.add(cardMageButton);
       radioPanel.add(pySolButton);
+      radioPanel.add(chooseButton);
+      
 
       // add it to the panel
       add(radioPanel, BorderLayout.LINE_START);
@@ -154,10 +159,10 @@ public class MenuDriver extends JPanel implements ActionListener
       
       //for the push down buttons
       if (action.equals("Play Perpetual Motion ->")) {
-         BoardDriver.main(getType);
+         BoardDriver.main(getType, backgroundColor);
       }
       else if (action.equals("Play Baroness ->")) {
-         Baroness.main(getType);
+         Baroness.main(getType, backgroundColor);
       }
       
       //displays the rules
@@ -179,7 +184,15 @@ public class MenuDriver extends JPanel implements ActionListener
                   + "\n Ace has a value of 1, jacks have a value of 11, queens have a value of 12, and kings have a value of 13.");
       }
       
-      
+     else if (action.equals("Choose background color")) {
+        if(backgroundColor == null){
+                 backgroundColor = getParent().getBackground();
+              }
+        else {
+           backgroundColor = JColorChooser.showDialog(
+                    getParent(), "Choose background color", Color.white);
+        }
+     }
   }
    
    
@@ -187,8 +200,7 @@ public class MenuDriver extends JPanel implements ActionListener
       //Create and set up the window.
       JFrame frame = new JFrame("Main Menu");
       frame.setSize(600, 800);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 
       //Create and set up the content pane.
       JComponent newContentPane = new MenuDriver(frame.getContentPane());
@@ -198,9 +210,6 @@ public class MenuDriver extends JPanel implements ActionListener
       //Display the window.
       frame.pack();
       frame.setVisible(true);
-      
-      //Set up the content pane.
-      //addComponentsToPane(frame.getContentPane());
   }
 
   public static void main(String[] args) {
