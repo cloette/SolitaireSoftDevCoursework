@@ -164,7 +164,7 @@ public class Baroness extends JPanel
             if (newTop == null){
                // If all piles are empty, the user has won. Print a winner message.
                if (deckA.isEmpty() && deckB.isEmpty() && deckC.isEmpty() && deckD.isEmpty()){
-                  JOptionPane.showMessageDialog(null, "Congrats! You won. Play again?");
+                  JOptionPane.showMessageDialog(null, "Congrats! You won.");
                   deckA.fill();
                   deckA.shuffle();
                }
